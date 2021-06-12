@@ -15,3 +15,18 @@ grid_search.fit(housing_prepared, housing_labels)
 
 # Finally, you can get the best combination of parameters like this:
 grid_search.best_params_
+
+grid_search.best_estimator_
+
+
+#If GridSearchCV is initialized with refit=True (which is the default), then once it finds the best estimator using crossvalidation,
+# it retrains it on the whole training set. This is usually a good idea since feeding it more data will likely improve its performance.
+
+# One step further: Randomized Search
+# The grid search approach is fine when you are exploring relatively few combinations, like in the previous example, but when the hyperparameter search space is large, it is
+# often preferable to use RandomizedSearchCV instead. This class can be used in much the same way as the GridSearchCV class, but instead of trying out all possible combinations,
+# it evaluates a given number of random combinations by selecting a random value for each hyperparameter at every iteration.
+# This approach has two main benefits:
+# • If you let the randomized search run for, say, 1,000 iterations, this approach will explore 1,000 different values for each hyperparameter (instead of just a few values
+# per hyperparameter with the grid search approach).
+# • You have more control over the computing budget you want to allocate to hyperparameter search, simply by setting the number of iterations.
