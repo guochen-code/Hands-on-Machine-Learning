@@ -18,7 +18,7 @@ grid_search.best_params_
 
 grid_search.best_estimator_
 
-
+# Bonus:
 #If GridSearchCV is initialized with refit=True (which is the default), then once it finds the best estimator using crossvalidation,
 # it retrains it on the whole training set. This is usually a good idea since feeding it more data will likely improve its performance.
 
