@@ -7,7 +7,7 @@ train_set, test_set = train_test_split(data_set, test_size=0.2, random_state=42)
 # steps:
 # 1. select an important attribute to predict the target variable.
 # 2. select reasonable number of strata.
-# 3. use pd.cut() function to create the selected attribute with decided number of categories.
+# 3. use pd.cut() function to create the selected attribute_rename with decided number of categories.
 data_set["selected attribute_rename"] = pd.cut(data_set["selected attribute"], bins=[#1, #2, #3, #4, #5, np.inf], labels=[1, 2, 3, 4, 5])
 
 from sklearn.model_selection import StratifiedShuffleSplit
