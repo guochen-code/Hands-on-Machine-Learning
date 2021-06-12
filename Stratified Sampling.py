@@ -22,3 +22,12 @@ strat_test_set["selected attribute_rename"].value_counts() / len(strat_test_set)
 # Now you should remove the selected attribute so the data is back to its original state:
 for set_ in (strat_train_set, strat_test_set):
 set_.drop("selected attribute_rename", axis=1, inplace=True)
+
+  
+  
+def split_train_test(data, test_ratio):
+  shuffled_indices = np.random.permutation(len(data))
+  test_set_size = int(len(data) * test_ratio)
+  test_indices = shuffled_indices[:test_set_size]
+  train_indices = shuffled_indices[test_set_size:]
+  return data.iloc[train_indices], data.iloc[test_indices]
