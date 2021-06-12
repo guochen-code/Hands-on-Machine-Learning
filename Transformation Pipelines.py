@@ -3,7 +3,7 @@ from sklearn.preprocessing import StandardScaler
 num_pipeline = Pipeline([
 ('imputer', SimpleImputer(strategy="median")),
 ('attribs_adder', CombinedAttributesAdder()),
-('std_scaler', StandardScaler()),
+('std_scaler', StandardScaler()), # alternative: MinMaxScaler()
 ])
 dataset_num_tr = num_pipeline.fit_transform(dataset_num)
 
