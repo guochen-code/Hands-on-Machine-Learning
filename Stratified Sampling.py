@@ -18,6 +18,7 @@ strat_test_set = data_set.loc[test_index]
 
 # check the selected attribute category proportions in the test set:
 strat_test_set["selected attribute_rename"].value_counts() / len(strat_test_set)
-# Now you should remove the income_cat attribute so the data is back to its original state:
+
+# Now you should remove the selected attribute so the data is back to its original state:
 for set_ in (strat_train_set, strat_test_set):
-set_.drop("income_cat", axis=1, inplace=True)
+set_.drop("selected attribute_rename", axis=1, inplace=True)
