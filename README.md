@@ -18,6 +18,8 @@ Fine tune selected models:
   RandomSearch
   Ensemble
   Voting (hard/soft)
+
+Analyze best models and their errors:
   
 Evaluate your final model on test set:
   Usually  slightly worse than the results you got with cross-validation, because you fine tuned your model to perform well on the validation data.
