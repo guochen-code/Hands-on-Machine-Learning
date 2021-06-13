@@ -17,7 +17,7 @@ Fine tune selected models:
   GridSearch
   RandomSearch
   Ensemble
-  Voting (hard/soft)
+  Voting/bagging/boosting/stacking
 
 Analyze best models and their errors:
   
