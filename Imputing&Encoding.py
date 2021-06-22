@@ -37,3 +37,7 @@ ordinal_encoder.categories_
 housing_cat_1hot.toarray()
 # check list of categories:
 cat_encoder.categories_
+
+
+*********************************************
+from pandas import get_dummies
