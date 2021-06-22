@@ -18,5 +18,6 @@ StandardScaler()
 # 3) robust sscaling
 # similar to min-max, but instead maps the interquartile range (the 75th percentile value minus the 25th percentile value) to (0,1). 
 # this means the variable itself takes values outside of the (0,1) interval. 
+# impacted least by the extreme values.
 from sklearn.preprocessing import RobustScaler
 RobustScaler()
