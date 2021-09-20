@@ -1,5 +1,6 @@
 from sklearn.model_selection import train_test_split
 train_set, test_set = train_test_split(data_set, test_size=0.2, random_state=42)
+# alternatively, [X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=0)], if x/y splitted.
 # Random sampling is fine given a large enough data set. 
 # Otherwise, it will introduce a significant sampling bias, not representative of the whole population.
 # Solutions: stratified sampling. The population is divided into homogeneous subgroups called strata, and the right number of instances is sampled from each stratum to guarantee that the test set is representative of the overall population.
