@@ -6,5 +6,5 @@
 (3) create isnull feature.
 (4) In general, avoid replacing missing values before feature generation, because it can decrease usefulness of the features.
     Be very careful when generating new feature using columns with missing values. for example, ignore missing values when calculate means for each category.
-(5) sometimes we can treat outliers as missing values.
+(5) sometimes we can treat outliers as missing values. i.e. people born in future.
 (6) xgb can handle NAN.
