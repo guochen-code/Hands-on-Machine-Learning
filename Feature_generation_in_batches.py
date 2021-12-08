@@ -17,6 +17,11 @@ pf.get_feature_names() #########################################################
 feature_array=pf.transform(df[features])
 pd.DataFrame(feature_array,columns=pf.get_feature_names(input_features=features)) ############################ return real names
 
-#### PolynomialFeatures has to be done prior to scaler in pipeline: if you standardize first you will end up with negative and positive values 
-for values that have all been positive, therefore changing all the interaction terms. Also bring them down to a smaller scale. so rather than the first value times the second
-value both being above 1 and therefore increasing the value even more. If you scale it down to values that are maybe 0.5 and 2, we are actually reducing the value.
+(1) PolynominalFeatures before Scaler
+# PolynomialFeatures has to be done prior to scaler in pipeline: if you standardize first you will end up with negative and positive values 
+# for values that have all been positive, therefore changing all the interaction terms. Also bring them down to a smaller scale. so rather than the first value times the second
+# value both being above 1 and therefore increasing the value even more. If you scale it down to values that are maybe 0.5 and 2, we are actually reducing the value.
+(2) Watch out if use lasso or ridge
+# pf=PolynomialFeatures(degree=2,include_bias=False)
+X_pf=pf.fit_transform(X)
+# because linear lasso or ridge model used later already have this bias term(intercept) in their model.
