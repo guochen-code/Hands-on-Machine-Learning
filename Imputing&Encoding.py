@@ -41,3 +41,7 @@ cat_encoder.categories_
 
 *********************************************
 from pandas import get_dummies
+df=pd.get_dummies(df,columns=one_hot_encode_cols,drop_first=True) # reduce multi-colinearality
+
+one_hot_encode_cols=df.dtypes[df.dtypes==np.object]
+one_hot_encode_cols=one_hot_encode_cols.index.tolist()
