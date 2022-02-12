@@ -1,0 +1,3 @@
+simple exponential smoothing (Holter linear):
+
+Fn = Fn-1 + alpha*(An-1 - Fn-1)
