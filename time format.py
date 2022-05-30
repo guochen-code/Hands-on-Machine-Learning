@@ -7,6 +7,9 @@ datetime.today().strftime("%Y-%m-%d %H:%M:%f %p %a")
 # output 
 # '2022-05-30 12:20:397326 PM Mon'  ############################### wrong format
 
+datetime.today().strftime("%Y-%m-%d %H:%M:%S %p %A")
+# output 
+# '2022-05-30 13:01:44 PM Monday'
 
 datetime.today().strftime("%Y-%m-%d %H:%M:%S.%f")
 # output 
