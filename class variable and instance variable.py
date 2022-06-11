@@ -13,3 +13,9 @@ class Water:
         if self.temperature > self.boiling_temperature:
             return 'gas'
         
+
+# if a user of your class uses a different temperature system (e.g., Fahrenheit), 
+water = Water(temperature=20)
+water.boiling_temperature = 212
+water.freezing_temperature = 32
+print(water.state())
