@@ -47,3 +47,7 @@ class Water(Matter):
 class Mercury(Matter):
     boiling_temperature = 356.7
     freezing_temperature = -38.83
+
+# example
+Water(20).state()
+# NOT Water.state(20)
