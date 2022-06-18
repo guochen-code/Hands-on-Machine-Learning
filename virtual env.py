@@ -29,6 +29,9 @@ cd..
 
 pip install fastapi[all] # install all dependencies for the fastapi
 
+######
+pip freeze # show all installed dependencies
+
 ###### in terminal:
 pip install -r requirements.txt
 
