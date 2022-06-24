@@ -64,3 +64,8 @@ typing_extensions==4.1.1
 uvicorn==0.13.4
 
 
+******************************************************************************************************************************************************
+# use another a new_requirements.txt to read requirements.txt
+# content in the new_requirements.txt like:
+-r requirements.txt
+pytest>=6.2.3,<6.3.0
