@@ -23,3 +23,11 @@ P(A|B) = P(B|A) * P(A) / P(B) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%         Bayes's r
 P(B) = sum[P(A,B)] 
      = sum[P(A|B)*P(B)] = sum[P(B|A)*P(A)]
      = sum[P(A1,B),P(A2,B),P(A3,B)........] *******************************************************************************************
+
+     
+     
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+(1) sample several hyper-parameter combinations
+(2) determine f(x) for those combinations (actually approximate f(x), can use gausian process or random forest)
+(3) decide when to sample next (acquisition function)
+(4) go back and iterate through (2), (3) and (4)
