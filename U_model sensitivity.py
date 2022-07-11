@@ -50,3 +50,25 @@ Machine learning models insensitive to feature magnitude are the ones based on t
 (1) Classification and Regression Trees.
 (2) Random Forests (RF.
 (3) Gradient Boosted Trees.
+                    
+                    
+***************************************************************************************************************************************************************
+# Function to find upper and lower boundaries
+# for skewed variables.
+
+
+def find_skewed_boundaries(df, variable, distance): # distance = 1.5 or 3
+
+    # Let's calculate the boundaries
+    # for skewed distributions
+
+    # The parameter "distance" gives us the option to
+    # estimate 1.5 times or 3 times the IQR when defining
+    # the boundaries.
+
+    IQR = df[variable].quantile(0.75) - df[variable].quantile(0.25)
+
+    lower_boundary = df[variable].quantile(0.25) - (IQR * distance)
+    upper_boundary = df[variable].quantile(0.75) + (IQR * distance)
+
+    return upper_boundary, lower_boundary
