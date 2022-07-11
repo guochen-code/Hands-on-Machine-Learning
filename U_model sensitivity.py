@@ -1,4 +1,5 @@
 # outliers
+
 (1) Some machine learning models are sensitive to outliers. For instance, AdaBoost may treat outliers as "hard" cases and put tremendous weights on them, 
 thus producing a model with poor generalisation.
 
