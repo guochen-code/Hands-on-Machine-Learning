@@ -21,3 +21,13 @@ append_list_as_row('odd_test.csv', data)
 import pandas as pd
 df=pd.read_csv('odd_test.csv',header=None)
 df.transpose()
+
+**************************************************************************************************************************************************
+# multiple dataframe to csv
+import os
+for data in [df,df_new1,df_new2]:
+    display(data)
+    if os.path.isfile('filename.csv'):
+        data.to_csv('filename.csv',mode='a',index=False,header=False)
+    else:
+        data.to_csv('filename.csv',mode='w',index=False)
