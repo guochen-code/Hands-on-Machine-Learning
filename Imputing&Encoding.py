@@ -45,3 +45,11 @@ df=pd.get_dummies(df,columns=one_hot_encode_cols,drop_first=True) # reduce multi
 
 one_hot_encode_cols=df.dtypes[df.dtypes==np.object]
 one_hot_encode_cols=one_hot_encode_cols.index.tolist()
+
+'''
+In practice, we shouldn't be using get-dummies in our machine learning pipelines. It is however useful, for a quick data exploration. Let's look at this with examples.
+
+If the variable colour has 3 categories in the train data, it will create 2 dummy variables. 
+However, if the variable colour has 5 categories in the test data, it will create 4 binary variables, 
+therefore train and test sets will end up with different number of features and will be incompatible with training and scoring using Scikit-learn.
+'''
