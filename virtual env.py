@@ -32,6 +32,8 @@ pip install fastapi[all] # install all dependencies for the fastapi
 ######
 pip freeze # show all installed dependencies
 (pip freeze > requirements.txt)
+(an open issue with pip freeze in version 20.1, the current workaround is to use:
+pip list --format=freeze > requirements.txt)
 
 ###### in terminal:
 pip install -r requirements.txt
