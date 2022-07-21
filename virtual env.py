@@ -72,3 +72,19 @@ uvicorn==0.13.4
 # content in the new_requirements.txt like:
 -r requirements.txt
 pytest>=6.2.3,<6.3.0
+
+
+
+******************************************************************************************************************************************************
+# 'virtualenv' won't activate on Windows
+(1) run powershell as an adminstrator: Start-Process powershell -Verb runAs (no need)
+
+(2) change policy: Set-ExecutionPolicy Unrestricted -Scope Process
+
+(3) enter [Y] to confirm
+
+(4) change directory to the venv of the specific project: cd <directory path>
+
+(5) activate the virtual environment: Scripts\activate.ps1
+
+(6) run the command to show the dependencies within the specific virtual environment: pip freeze
