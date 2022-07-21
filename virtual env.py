@@ -31,6 +31,7 @@ pip install fastapi[all] # install all dependencies for the fastapi
 
 ######
 pip freeze # show all installed dependencies
+(pip freeze > requirements.txt)
 
 ###### in terminal:
 pip install -r requirements.txt
