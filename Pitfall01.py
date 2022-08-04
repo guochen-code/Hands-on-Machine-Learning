@@ -50,3 +50,4 @@ memory usage: 288.0+ bytes
 '''
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! NOW THEY ARE OBJECT AND INT64 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+root cause: np.array(). remove np.array() and use list directly.
