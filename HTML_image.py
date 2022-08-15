@@ -40,13 +40,8 @@ f_old = open('image passing to html.html','w')
 f_old.write(f)
 
 # view HTML
-# import module
 import codecs
-
 file = codecs.open("image passing to html.html", 'r', "utf-8")
-  
-# using .read method to view the html 
-# code from our object
 print(file.read())
 
 # view in browser
