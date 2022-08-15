@@ -1,5 +1,59 @@
 (1) save the image in memory
 
+<1.1> save in disk
+import matplotlib.pyplot as plt
+from PIL import Image
+import base64
+import io
+
+# save a plot as a jpg
+plt.plot([1,2,3],[1,2,3])
+plt.savefig('temp.jpg')
+
+# encode the saved image
+im = Image.open("temp.jpg")
+data = io.BytesIO()
+im.save(data, "JPEG")
+encoded_img_data = base64.b64encode(data.getvalue())
+
+
+img_link="data:image/gif;base64,"+str(encoded_img_data)[2:-1]
+
+# start to write HTML
+f = open('image passing to html.html','w')
+
+message = """
+<html>
+<body>
+<h2>HTML Images</h2>
+<p>HTML images are defined with the img tag:</p>
+<img src={img_link:} alt="Base64 encoded image" width="150" height="150"/>
+</body>
+</html>
+"""
+f.write(message)
+f.close()
+
+# rewrite HTML
+f = open('image passing to html.html').read().format(img_link_2=img_link_2)
+f_old = open('image passing to html.html','w')
+f_old.write(f)
+
+# view HTML
+# import module
+import codecs
+
+file = codecs.open("image passing to html.html", 'r', "utf-8")
+  
+# using .read method to view the html 
+# code from our object
+print(file.read())
+
+# view in browser
+import webbrowser
+webbrowser.open('image passing to html.html') 
+
+<1.2> save in buffer
 You need to "save" the image, get that bytestream, and encode that to base64. You don't have to save the image to an actual file; you can actually use a buffer.
 
 w = WordCloud().generate('Test')
@@ -15,7 +69,7 @@ plt.show()
 
 
 (2) Finally, we use base64encode to transfer the image we saved as in-memory to html.
-###############################################
+#############################################################################################################################################
 from flask import Flask, render_template
 from PIL import Image
 import base64
@@ -37,7 +91,7 @@ def hello_world():
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
 
-#############################################    
+###########################################################################################################################################
 <!DOCTYPE html>
 <html lang="en">
 <head>
