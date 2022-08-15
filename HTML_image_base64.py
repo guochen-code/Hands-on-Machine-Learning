@@ -107,7 +107,7 @@ import io
 import base64
 
 img_data= base64.b64decode(encoded_img_data.decode("utf-8"))
-Image.open(io.BytesIO(img_data)) # open to display
+Image.open(io.BytesIO(img_data)) # open to display # Image.open("temp_10.jpg")
 
 
 import base64
