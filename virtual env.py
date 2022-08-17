@@ -88,3 +88,12 @@ pytest>=6.2.3,<6.3.0
 (5) activate the virtual environment: Scripts\activate.ps1
 
 (6) run the command to show the dependencies within the specific virtual environment: pip freeze
+
+******************************************************************************************************************************************************
+# check version
+import matplotlib
+import pandas
+import numpy
+print(matplotlib.__version__)
+print(pandas.__version__)
+print(numpy.__version__)
