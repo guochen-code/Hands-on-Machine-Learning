@@ -52,3 +52,11 @@ Code	Example	Description
 %x	09/08/13	Locale’s appropriate date representation.
 %X	07:06:05	Locale’s appropriate time representation.
 %%	%	A literal '%' character.
+
+
+************************************************************************************************************************************************
+import math
+from datetime import datetime
+connection_time = df['start_timestamp'].values[0]
+connection_time_round = math.trunc(connection_time/1000)
+connection_time_string = datetime.utcfromtimestamp(connection_time_round).strftime('%Y-%m-%d %I:%M:%S %p')
