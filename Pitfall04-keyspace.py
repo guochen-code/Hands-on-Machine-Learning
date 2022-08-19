@@ -21,8 +21,8 @@ try:
   ssl_context = SSLContext(PROTOCOL_TLSv1_2)
   ssl_context.load_verify_locations('sf-class2-root.crt')
   ssl_context.verify_mode = CERT_REQUIRED
-  auth_provider = PlainTextAuthProvider(username='machine_learning_user-at-212703716612',
-                                        password='+aelyMzdi5xg/tmlT//hyOyhlRd1T9Ci1btRxdu0Cts=')
+  auth_provider = PlainTextAuthProvider(username='xxxxuser-xx-xxxxx',
+                                        password='xxxxxxxxxxxxx')
   cluster = Cluster(['cassandra.us-east-1.amazonaws.com'], ssl_context=ssl_context,
                     auth_provider=auth_provider, port=9142)
   session = cluster.connect()
