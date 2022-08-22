@@ -1,5 +1,7 @@
 # pass changing values/arrays to child processes from parent process
 # wrong impression from 'Multiprocessing and Class' document : problem in jupyterlab, but not a problem in pycharm
+(1) in jupyterlab, can run without if __name__ == '__main__', but can't in pycharm
+(2) in jupyterlab, need to import script, but no need in pycharm
 ******************************************************************************************************************************************************
 from multiprocessing import Process, Value, Array
 import time
