@@ -25,7 +25,7 @@ if __name__ == '__main__':
         time.sleep(6)
         print('---------------------------------------')
         
-******************************************************************************************************************************************************
+*************************************************************** correct the wrong impression **********************************************************************************
 from multiprocessing import Process, Value, Array
 
 def f(n, a):
@@ -56,7 +56,7 @@ if __name__ == '__main__':
 [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 '''
 
-reason: 
+*************************************************************************** reason: 
 When working in interactive environment (i.e with the Notebook), you need to import the functions you want to call with Process or Pool.
 
 In the same folder, create a file utils.py, insert your f function in it, and import it in your notebook with :
