@@ -1,5 +1,5 @@
 # pass changing values/arrays to child processes from parent process
-# wrong impression from 'Multiprocessing and Class' document
+# wrong impression from 'Multiprocessing and Class' document : problem in jupyterlab, but not a problem in pycharm
 ******************************************************************************************************************************************************
 from multiprocessing import Process, Value, Array
 import time
