@@ -1,4 +1,5 @@
 # pass changing values/arrays to child processes from parent process
+# wrong impression from 'Multiprocessing and Class' document
 ******************************************************************************************************************************************************
 from multiprocessing import Process, Value, Array
 import time
