@@ -35,6 +35,7 @@ datetime.strptime('2023-02-24 16:05:52', "%Y-%m-%d %H:%M:%S") # need to specify 
 pd.to_datetime('2023-02-24 16:05:52') # no need to specify the format. quite flexible and get the same result if input '02-24-2023 16:05:52'
 # but beware that the "first position" 02 will be considered the ***month*** by default!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! unless input '24-02-2023 16:05:52'
 # where 24 is bigger than 12 so it can't be month, will automatically adjust to day
+# note this will apply to ONLY one value, if you have a list, for other values it still apply that first position is the month!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 # you can also specifiy the format:
 pd.to_datetime('02-01-2023 16:05:52',format="%d-%m-%Y %H:%M:%S")
