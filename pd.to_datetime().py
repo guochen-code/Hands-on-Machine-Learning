@@ -47,3 +47,21 @@ pd.Timestamp.now() -> # Timestamp('2022-08-24 10:56:44.795747')
 print(pd.Timestamp.now()) -> # 2022-08-24 10:56:29.677588
 datetime.now() -> # datetime.datetime(2022, 8, 24, 10, 57, 42, 283579)
 print(datetime.now()) -> # 2022-08-24 10:56:29.936571
+
+###################################################################### timezone conversion 
+# Create a timestamp object with UTC timezone:
+ts = pd.Timestamp('2020-03-14T15:32:52.192548651', tz='UTC')
+ts
+'''
+Timestamp('2020-03-14 15:32:52.192548651+0000', tz='UTC')
+'''
+#Change to Tokyo timezone:
+ts.tz_convert(tz='Asia/Tokyo')
+'''
+Timestamp('2020-03-15 00:32:52.192548651+0900', tz='Asia/Tokyo')
+'''
+# Can also use astimezone:
+ts.astimezone(tz='Asia/Tokyo')
+'''
+Timestamp('2020-03-15 00:32:52.192548651+0900', tz='Asia/Tokyo')
+'''
