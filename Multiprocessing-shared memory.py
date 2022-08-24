@@ -26,7 +26,23 @@ if __name__ == '__main__':
             p.start()
         time.sleep(6)
         print('---------------------------------------')
-        
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ IT IS NOT A REAL DATA FLOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# different pids for child processes
+'''
+opla-123
+11
+opla-456
+11
+{'opla-123': <Process name='opla-123' pid=21964 parent=9684 stopped exitcode=0>, 'opla-456': <Process name='opla-456' pid=17696 parent=9684 stopped exitcode=0>}
+---------------------------------------
+opla-123
+12
+opla-456
+12
+{'opla-123': <Process name='opla-123' pid=25500 parent=9684 stopped exitcode=0>, 'opla-456': <Process name='opla-456' pid=10696 parent=9684 stopped exitcode=0>} 
+'''
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~        
 *************************************************************** correct the wrong impression **********************************************************************************
 from multiprocessing import Process, Value, Array
 
