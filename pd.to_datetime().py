@@ -25,3 +25,21 @@ df_attempts.groupby([pd.Grouper(key='start_time',freq='M')])['score'].sum() # op
 df_test.set_index('start_time').resample('M')['score'].sum() # option 2 monthly total score
 
 df_test.set_index('start_time').resample('Y').sum()['score'] # yearly total score
+
+
+
+********************************************************************** datetime vs pd.to_datetime ***************************************************************
+# convert string to datetime
+datetime.strptime('2023-02-24 16:05:52', "%Y-%m-%d %H:%M:%S") # need to specify the format
+
+pd.to_datetime('2023-02-24 16:05:52') # no need to specify the format. quite flexible and get the same result if input '02-24-2023 16:05:52'
+# but beware that the "first position" 02 will be considered the ***month*** by default!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! unless input '24-02-2023 16:05:52'
+# where 24 is bigger than 12 so it can't be month, will automatically adjust to day
+
+# you can also specifiy the format:
+pd.to_datetime('02-01-2023 16:05:52',format="%d-%m-%Y %H:%M:%S")
+# note that first position would be day!!!!!!!!!!! output:
+'''
+Timestamp('2023-01-02 16:05:52')
+'''
+
