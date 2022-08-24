@@ -43,3 +43,7 @@ pd.to_datetime('02-01-2023 16:05:52',format="%d-%m-%Y %H:%M:%S")
 Timestamp('2023-01-02 16:05:52')
 '''
 
+pd.Timestamp.now() -> # Timestamp('2022-08-24 10:56:44.795747')
+print(pd.Timestamp.now()) -> # 2022-08-24 10:56:29.677588
+datetime.now() -> # datetime.datetime(2022, 8, 24, 10, 57, 42, 283579)
+print(datetime.now()) -> # 2022-08-24 10:56:29.936571
