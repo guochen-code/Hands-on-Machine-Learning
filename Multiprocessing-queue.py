@@ -1,8 +1,13 @@
+************************************************************************************************************************************************************
+
+                                            multiple consumers/child processes and one producer/parent process
+
+************************************************************************************************************************************************************
+
 from multiprocessing import Process, Queue
 import time
 import sys
 import random
-
 
 
 def reader_proc(queue,name):
