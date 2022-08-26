@@ -1,7 +1,9 @@
 ************************************************************************************************************************************************************
 
                                             multiple consumers/child processes and one producer/parent process
-
+                                                   
+              one producer (different data streams) - multiple queues - multiple consumers (one consumer only process one specific data stream)
+                                                                                                    
 ************************************************************************************************************************************************************
 
 from multiprocessing import Process, Queue
