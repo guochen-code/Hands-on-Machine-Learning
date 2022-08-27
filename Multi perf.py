@@ -16,7 +16,23 @@ sum	      78546783		78540669
 pi	    3.14187132		3.14162676		3.1415028
 time	  54.31396544		13.25850404		51.81063664
 '''
-
+'''
+Total shoot times = 1,000,000,000	
+78537656
+78533465
+78537633
+78543401
+78538508
+78538447
+78533752
+78535067
+78535282
+78537763
+sum 785370974
+pi 3.141483896
+time 133.0128756
+# time increased 10 times. but max accuract not improved. maybe average accuracy improved.
+'''
 
 from random import random
 import time
