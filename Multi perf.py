@@ -30,7 +30,7 @@ def shooter(shoot_times):
         y_random=random()
         if (x_random**2+y_random**2) <= 1:
             count+=1
-    print(count)
+    return count
 
 shoot_times=100000000
 start=time.perf_counter()
