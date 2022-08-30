@@ -109,7 +109,7 @@ import base64
 img_data= base64.b64decode(encoded_img_data.decode("utf-8"))
 Image.open(io.BytesIO(img_data)) # open to display # Image.open("temp_10.jpg")
 
-
+************************************************************* use this one !!!!!!!! ******************************************************
 import base64
 imgdata = base64.b64decode(imgstring)
 filename = 'some_image.jpg'  # I assume you have a way of picking unique filenames
