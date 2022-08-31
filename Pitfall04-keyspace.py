@@ -45,3 +45,6 @@ try:
 except Exception as err:
   print(f"database error for {opla_job}:", err)
   cluster.close()
+
+***********************************************************************************************************************************************************
+  data type ascii: max size: 204.8KB
