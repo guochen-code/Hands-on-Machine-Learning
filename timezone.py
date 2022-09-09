@@ -11,3 +11,32 @@ rig_time.strftime('%Y-%m-%d %I:%M:%S %p')
 utc_dt = datetime.utcfromtimestamp(ts / 1000.0)
 rig_time = utc_dt + timedelta(hours=gmt_offset)
 connection_time = rig_time.strftime('%Y-%m-%d %I:%M:%S %p')
+
+
+example:
+from datetime import datetime, timedelta
+import pytz
+
+ts=1662739495000
+utc_dt = datetime.utcfromtimestamp(ts / 1000.0)
+print(type(utc_dt))
+rig_time = utc_dt + timedelta(hours=-5)
+connection_time = rig_time.strftime('%Y-%m-%d %I:%M:%S %p')
+connection_time
+'''
+<class 'datetime.datetime'>
+'2022-09-09 11:04:55 AM'
+'''
+
+utc_dt.astimezone(pytz.timezone("Asia/Hong_Kong"))
+'''
+datetime.datetime(2022, 9, 10, 6, 4, 55, tzinfo=<DstTzInfo 'Asia/Hong_Kong' HKT+8:00:00 STD>)
+'''
+
+utc_dt.astimezone(pytz.timezone("Asia/Hong_Kong")).strftime('%Y-%m-%d %I:%M:%S %p')
+'''
+'2022-09-10 06:04:55 AM'
+'''
+
+
+  
