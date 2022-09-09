@@ -17,6 +17,7 @@ example:
 from datetime import datetime, timedelta
 import pytz
 
+##################################################################### use -/+ a number from UTC
 ts=1662739495000
 utc_dt = datetime.utcfromtimestamp(ts / 1000.0)
 print(type(utc_dt))
@@ -28,6 +29,7 @@ connection_time
 '2022-09-09 11:04:55 AM'
 '''
 
+##################################################################### use timezone string (good for daylight saving?)
 utc_dt.astimezone(pytz.timezone("Asia/Hong_Kong"))
 '''
 datetime.datetime(2022, 9, 10, 6, 4, 55, tzinfo=<DstTzInfo 'Asia/Hong_Kong' HKT+8:00:00 STD>)
