@@ -47,8 +47,10 @@ target_tz.normalize(utctime.astimezone(target_tz)).strftime('%Y-%m-%d %I:%M:%S %
 localtz.normalize(utctime.astimezone(localtz)).dst() # check daylight saving time -> datetime.timedelta(seconds=3600)
 
 
+********************************************************************* above in MTD, GMT-6 *************************************************************************
 
-********************************************************************* check in MST **********************************************************************************
+********************************************************************* check in MST, GMT-7 *************************************************************************
+
 # it is indeed automatically taken care by pytz
 ts=1670002560000
 utc_dt = datetime.utcfromtimestamp(ts / 1000.0)
