@@ -29,7 +29,7 @@ connection_time
 '2022-09-09 11:04:55 AM'
 '''
 
-##################################################################### use timezone string (good for daylight saving?)
+##################################################################### use timezone string (automatically accounts for daylight saving?)
 utc_dt.astimezone(pytz.timezone("Asia/Hong_Kong"))
 '''
 datetime.datetime(2022, 9, 10, 6, 4, 55, tzinfo=<DstTzInfo 'Asia/Hong_Kong' HKT+8:00:00 STD>)
