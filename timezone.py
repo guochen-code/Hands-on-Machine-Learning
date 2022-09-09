@@ -30,15 +30,31 @@ connection_time
 '''
 
 ##################################################################### use timezone string (automatically accounts for daylight saving?)
-utc_dt.astimezone(pytz.timezone("Asia/Hong_Kong"))
-'''
-datetime.datetime(2022, 9, 10, 6, 4, 55, tzinfo=<DstTzInfo 'Asia/Hong_Kong' HKT+8:00:00 STD>)
-'''
+# above example, you know the base number is utc timezone, thus -5 hours
+# here you need to specify utc timezone otherwise the machine will assume the given time is in local timezone
 
-utc_dt.astimezone(pytz.timezone("Asia/Hong_Kong")).strftime('%Y-%m-%d %I:%M:%S %p')
-'''
-'2022-09-10 06:04:55 AM'
-'''
+(1) assgin timezone
+ts=1662741316000
+utc_dt = datetime.utcfromtimestamp(ts / 1000.0)
+print(utc_dt) -> 2022-09-09 16:35:16 # no timezone assigned, machine will assume it is in local timezone !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+utc = pytz.timezone('UTC')
+utctime = utc.localize(utc_dt)
+print(utctime) -> datetime.datetime(2022, 9, 9, 16, 35, 16, tzinfo=<UTC>) # has timezone information !!!!!!!!!!!!!!!!
+
+(2) convert to a different timezone
+target_tz = pytz.timezone('America/Denver')
+target_tz.normalize(utctime.astimezone(target_tz)).strftime('%Y-%m-%d %I:%M:%S %p') -> '2022-09-09 10:35:16 AM'
+localtz.normalize(utctime.astimezone(localtz)).dst() # check daylight saving time -> datetime.timedelta(seconds=3600)
 
 
-  
+
+********************************************************************* check in MST **********************************************************************************
+# it is indeed automatically taken care by pytz
+ts=1670002560000
+utc_dt = datetime.utcfromtimestamp(ts / 1000.0)
+utc = pytz.timezone('UTC')
+utctime = utc.localize(utc_dt)
+utctime.strftime('%Y-%m-%d %I:%M:%S %p') -> '2022-12-02 05:36:00 PM'
+localtz = pytz.timezone('America/Denver')
+localtz.normalize(utctime.astimezone(localtz)).strftime('%Y-%m-%d %I:%M:%S %p') -> '2022-12-02 10:36:00 AM'
+localtz.normalize(utctime.astimezone(localtz)).dst() -> datetime.timedelta(0)
