@@ -1,3 +1,9 @@
+i='job-2'
+lst=['job-1']
+for i in lst:
+    pass
+i -> 'job-1'
+*********************************************************************************************************************************************************
 be careful with the variable name used in for loop. 
 Unintentional consequences will be caused: 
 source: job-2 # start a new job, so
