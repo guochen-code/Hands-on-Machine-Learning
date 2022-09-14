@@ -1,3 +1,5 @@
+# splitting task
+
 length=100
 number_of_process=4
 
