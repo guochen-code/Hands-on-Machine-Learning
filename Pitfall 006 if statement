@@ -1,0 +1,25 @@
+if a1 = a2:
+  print('a1=a2')
+  
+if a1 = a2 and b1 = b2:
+  print('a1=a2 and b1=b2')
+  
+################################################################################################################################# the sequence matters
+in case of a1 = a2 and b1 = b2, it will never print 'a1=a2 and b1=b2'
+it will enter into the 1st if statement and execute and end the program!!!!!!!!
+
+
+def myfunc(a1,a2,b1,b2):
+    if a1 == a2:
+        print('aaa')
+    elif a1 == a2 and b1 == b2:
+        print('abab')
+    elif b1 == b2:
+        print('bbb')
+        
+a1 = 1
+a2 = 1
+b1 = 2
+b2 = 2
+
+myfunc(a1,a2,b1,b2) -> aaa
