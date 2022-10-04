@@ -5,6 +5,7 @@ if a1 = a2 and b1 = b2:
   print('a1=a2 and b1=b2')
   
 ################################################################################################################################# the sequence matters
+############################################################################################### most restrict if condition goes first !!!!!!!!!!!!!!!!!!!!!!
 in case of a1 = a2 and b1 = b2, it will never print 'a1=a2 and b1=b2'
 it will enter into the 1st if statement and execute and end the program!!!!!!!!
 
