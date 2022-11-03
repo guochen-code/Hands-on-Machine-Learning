@@ -86,12 +86,12 @@ git checkout <hash_number>
 # how to undo
 git checkout master # go back to master and latest commit
 
-**************************************************************************** git restore
+**************************************************************************** undoing: git restore
 # git restore filename
 # git restore --source HEAD~N filename # if you at 3rd commit, N=2 means you go back to the 1st commit
 # git restore --staged filename # after execute git add filename, you want to revoke this action
 
-**************************************************************************** git rest
+**************************************************************************** undoing: git reset
 # you just reset the commit, the news files still there!!!!!!!!!!
 # this is useful if you accidentally committed to the wrong branch (for example, maybe you forgot to
 # run git switch right after creating a new branch, accidentally committing to the original branch).
@@ -100,6 +100,14 @@ git reset <hash>
 # what if you want the files to change:
 git reset <hash> --hard
 
-****************************************************************************
+# git reset goes back and removes the commits and (changes files if its --hard)
+
+**************************************************************************** undoing: git revert (encourage to use git revert over git reset whenever you can)
+# imagine sb just created a branch off of one of the comnits we just got rid of, you can lose shared history !!!!!!
+# this makes merge branches harder, definitely not impossible.
+# git revert not change he project history, safe for commits that have already been published to a shared repo
+# git revert creates a new commit that matches the historical state of previous commit
+# git revert is a safer alternative to git reset in regards to losing work !!!!!!!!!
+
 
 
