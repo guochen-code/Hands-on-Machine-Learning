@@ -129,5 +129,16 @@ commit-2 buggy commit
 commit-1
 '''
 
-****************************************************************************
+**************************************************************************** git stash
+# case context:
+# when you are working on sth, on a new branch, not finished. you boss wants you to quickly switch to master branch to check sth.
+# if you switch to the master, these changes will go along with you to the master, although not committed, but you can see them, not what we want
+# so we want to stash these changes into a box, and reuse them later, when we back to the new branch from the master
+
+# so in the new branch
+git stash
+
+# when you back to the new branch, you want these things back
+(1) git stash pop # normal use case, they will be back
+(2) git stash apply # memory fuzzy, you want them to be referred, not lose them.
 
