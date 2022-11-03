@@ -87,7 +87,7 @@ git checkout <hash_number>
 git checkout master # go back to master and latest commit
 
 **************************************************************************** undoing: git restore
-# git restore filename
+# git restore filename # you change the file but not commit, use restore
 # git restore --source HEAD~N filename # if you at 3rd commit, N=2 means you go back to the 1st commit
 # git restore --staged filename # after execute git add filename, you want to revoke this action
 
@@ -100,6 +100,17 @@ git reset <hash>
 # what if you want the files to change:
 git reset <hash> --hard
 
+# application - mistakely commit on main branch, which is not supposed to be
+(1) you have multiple commits 1-6
+(2) you go and checkout commit 4
+(3) you make some changes on code
+(4) you find you did not switch to a new branch
+(5) git reset to commit 4
+(6) switch to the new branch
+(7) add and commit in new branch
+
+
+
 # git reset goes back and removes the commits and (changes files if its --hard)
 
 **************************************************************************** undoing: git revert (encourage to use git revert over git reset whenever you can)
@@ -109,5 +120,14 @@ git reset <hash> --hard
 # git revert creates a new commit that matches the historical state of previous commit
 # git revert is a safer alternative to git reset in regards to losing work !!!!!!!!!
 
+git revert <hash> # the code will be gone under the hash, but the commit hash still in the log!!!!!!!!!!!!!!!
+# log if revert commit 2:
+'''
+commit-4 revert buggy commit # this is a new commit created !!!!!! so this state matches with commit-1 before buggy commit
+commit-3
+commit-2 buggy commit
+commit-1
+'''
 
+****************************************************************************
 
