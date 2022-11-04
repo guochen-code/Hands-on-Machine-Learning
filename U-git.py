@@ -142,3 +142,7 @@ git stash
 (1) git stash pop # normal use case, they will be back
 (2) git stash apply # memory fuzzy, you want them to be referred, not lose them.
 
+**************************************************************************** github pull request and fork
+(1) if you are collaborator, you are allowed to push to the github, so you can clone locally and  make changes and send the pull request
+(2) if you are not collaborator, you can fork the repo in your own github account, now I can push to forked repo because I own this copy.
+    clone locally, make some changes, push to the forked repo. and from forked repo, send pull request to the origin repo
