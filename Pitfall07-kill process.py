@@ -47,3 +47,18 @@ kill SIGNAL PID # comman
 '''
 
 kill -9 10764
+
+*********************************************************************** exception handling ************************************************************************
+import multiprocessing, time, signal
+p = multiprocessing.Process(target=time.sleep, args=(1000,))
+print(p, p.is_alive())
+<Process ... initial> False
+p.start()
+print(p, p.is_alive())
+<Process ... started> True
+p.terminate()
+time.sleep(0.1)
+print(p, p.is_alive())
+<Process ... stopped exitcode=-SIGTERM> False
+p.exitcode == -signal.SIGTERM                            ##### SIGKILL !!!!!!!!!!!!!!!!!!
+True
