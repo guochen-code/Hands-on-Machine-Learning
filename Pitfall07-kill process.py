@@ -34,3 +34,16 @@ kill(pid, SIGKILL)
 # report a message
 print('Skill running')
 
+*********************************************************************** LINUX *********************************************************************************
+'''
+The most common kill signals are:
+SIGHUP  1  Hangup
+SIGINT  2 Interrupt from keyboard
+SIGKILL 9 Kill signal
+SIGTERM 15  Termination signal
+SIGSTOP 17, 19, 23  Stop the process
+
+kill SIGNAL PID # comman
+'''
+
+kill -9 10764
