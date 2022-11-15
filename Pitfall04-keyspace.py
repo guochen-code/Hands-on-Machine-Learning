@@ -48,3 +48,25 @@ except Exception as err:
 
 ***********************************************************************************************************************************************************
   data type ascii: max size: 204.8KB
+
+      
+***********************************************************************************************************************************************************
+A compound primary key consists of more than one column; the first column is the partition key, and the additional columns are clustering keys. 
+To define compound primary key as follows:
+  
+CREATE TABLE cycling.cyclist_category (
+   category text, 
+   points int, 
+   id UUID, 
+   lastname text, 
+   PRIMARY KEY (category, points)) 
+WITH CLUSTERING ORDER BY (points DESC);
+
+A composite partition key is a partition key consisting of multiple columns. Enclose the partition key columns in parenthesis.
+
+CREATE TABLE cycling.rank_by_year_and_name ( 
+   race_year int, 
+   race_name text, 
+   cyclist_name text, 
+   rank int, 
+   PRIMARY KEY ((race_year, race_name), rank) );
