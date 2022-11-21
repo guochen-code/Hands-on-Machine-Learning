@@ -62,3 +62,77 @@ print(p, p.is_alive())
 <Process ... stopped exitcode=-SIGTERM> False
 p.exitcode == -signal.SIGTERM                            ##### SIGKILL !!!!!!!!!!!!!!!!!!
 True
+
+****************************************************** prcess.terminate() not working in Elastic Beanstalk ********************************************************
+****************************************************** prcess.kill() working but create zombie process, still present in the process table ************************
+****************************************************** limited entries in the process table, if reach the maximum, cannot create more process *********************
+
+import time
+import multiprocessing
+from listener import Listener
+import os
+
+
+# if __name__ == '__main__':                                       # problem-0: no need this in linux, otherwise error below. possible reason: root->raw process->parent process(application.py)->child processes. in this case, 
+print('****************************************** start **********************************!!!!!')
+all_active_process = {}
+
+for opla_job in ['opla-123', 'opla-456', 'opla-789']:
+    instance = Listener(opla_job)
+    p = multiprocessing.Process(target=instance.get_stream, name=opla_job)
+    print('new process created for: ', opla_job)
+    p.start()
+    all_active_process[opla_job] = p
+    print('all active process:', all_active_process)
+
+time.sleep(20)
+
+for opla_job in ['opla-123']:
+    all_active_process[opla_job].kill()                       # problem-1: terminate() will not terminate the process, not working. use kill()         
+    print(f'{opla_job} terminated !!!! *************')
+
+original_time=time.time()
+print('original_time:',original_time)
+
+while True:
+    print('main script: running.............')
+    time.sleep(2)
+    current_time=time.time()
+    print('current_time:',current_time)
+    print('original_time - current_time',round(current_time-original_time))
+    # if round(current_time-original_time) == 10:
+    #     all_active_process['opla-456'].terminate()
+    #     print('opla-456 terminated !!!! *************')
+    # if round(current_time - original_time) == 20:
+    #     all_active_process['opla-789'].terminate()
+    #     print('opla-789 terminated !!!! *************')
+    for process in list(all_active_process.keys()):
+        if not all_active_process[process].is_alive():
+            print('not live:',all_active_process[process])
+            print('os.wait is calling..........')
+            os.waitpid(-1,os.WNOHANG)                   # problem-2: can't just wait() and pause the parent process
+            print('os.wait is called......')
+            del all_active_process[process]
+            print('delete:',process)
+            print(all_active_process)
+    print('all active process:', all_active_process)
+
+
+    
+####################################################################################################################################
+Nov 20 19:35:26 ip-172-31-111-151 web: [2022-11-20 19:35:26 +0000] [18762] [INFO] Booting worker with pid: 18762
+Nov 20 19:35:26 ip-172-31-111-151 web: Failed to find attribute 'application' in 'application'.
+Nov 20 19:35:26 ip-172-31-111-151 web: [2022-11-20 19:35:26 +0000] [18762] [INFO] Worker exiting (pid: 18762)
+Nov 20 19:35:26 ip-172-31-111-151 web: [2022-11-20 19:35:26 +0000] [18756] [INFO] Shutting down: Master
+Nov 20 19:35:26 ip-172-31-111-151 web: [2022-11-20 19:35:26 +0000] [18756] [INFO] Reason: App failed to load.
+Nov 20 19:35:27 ip-172-31-111-151 web: [2022-11-20 19:35:27 +0000] [18771] [INFO] Starting gunicorn 20.1.0
+Nov 20 19:35:27 ip-172-31-111-151 web: [2022-11-20 19:35:27 +0000] [18771] [INFO] Listening at: http://127.0.0.1:8000 (18771)
+Nov 20 19:35:27 ip-172-31-111-151 web: [2022-11-20 19:35:27 +0000] [18771] [INFO] Using worker: sync
+Nov 20 19:35:27 ip-172-31-111-151 web: [2022-11-20 19:35:27 +0000] [18777] [INFO] Booting worker with pid: 18777
+Nov 20 19:35:27 ip-172-31-111-151 web: Failed to find attribute 'application' in 'application'.
+Nov 20 19:35:27 ip-172-31-111-151 web: [2022-11-20 19:35:27 +0000] [18777] [INFO] Worker exiting (pid: 18777)
+####################################################################################################################################
+    
+
+
+
