@@ -1,0 +1,58 @@
+I am seeing a weird behavior where Gunicorn does not shutdown immediately when sent a SIGTERM. 
+
+Do you have open connections when this happens? If so, that is expected. SIGTERM is a graceful shutdown and subject to the --graceful-timeout setting (default 30s).
+No open connections !!!!!!!!!!!!!!!!
+
+TERM: graceful shutdown
+while loop, never end, so never shutdown.......
+
+if not while loop, when the program of child process ends, it will gracefully shutdown, become zombie process if no single handler in parent process.........
+
+so in summary, SIGTERM was successfully sent to the child process, because it is not forceful, it will wait the child process to finish its program and gracefully
+shut down.
+
+
+****************************************************************************************************************************************************************
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! the reason for it not shut down is due to the endless loop in the child process !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+****************************************************************************************************************************************************************
+
+
+however, it can be shutdown running python on local machine........not on gunicorn though...........??????????????????????????????????????
+
+
+
+application.py
+import time
+import multiprocessing
+from listener import Listener
+import os
+import sys 
+print('****************************************** start **********************************!!!!!')
+all_active_process = {}
+for opla_job in ['opla-123', 'opla-456', 'opla-789']:
+    instance = Listener(opla_job)
+    p = multiprocessing.Process(target=instance.get_stream, name=opla_job)
+    p.start()
+    print('new process created for: ', opla_job)
+    all_active_process[opla_job] = p
+    print('all active process:', all_active_process)
+while True:
+    print('main script: going to sleep for 2 seconds.............')
+    time.sleep(2)
+    print('waking up.............................................')
+    
+    
+listener.py
+import time
+class Listener:
+    def __init__(self, opla_job_number):
+        self.opla_job_number = opla_job_number
+
+
+    def get_stream(self):
+        for i in range(100):
+            print(self.opla_job_number,i)
+        time.sleep(60)
+        print(f'{self.opla_job_number} sleep ends...............')
+    
+    
