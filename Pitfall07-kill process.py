@@ -134,16 +134,23 @@ Nov 20 19:35:27 ip-172-31-111-151 web: [2022-11-20 19:35:27 +0000] [18777] [INFO
 ####################################################################################################################################
     
 
-Expanding a bit on the good answer you already got, it helps if you understand what Linux-y systems do. They spawn new processes using fork(), which has two good consequences:
+Expanding a bit on the good answer you already got, it helps if you understand what Linux-y systems do. 
+They spawn new processes using fork(), which has two good consequences:
 
 All data structures existing in the main program are visible to the child processes. They actually work on copies of the data.
-The child processes start executing at the instruction immediately following the fork() in the main program - so any module-level code already executed in the module will not be executed again.
+The child processes start executing at the instruction immediately following the fork() in the main program - 
+so any module-level code already executed in the module will not be executed again.
 fork() isn't possible in Windows, so on Windows each module is imported anew by each child process. So:
 
 On Windows, no data structures existing in the main program are visible to the child processes; and,
 All module-level code is executed in each child process.
-So you need to think a bit about which code you want executed only in the main program. The most obvious example is that you want code that creates child processes to run only in the main program - so that should be protected by __name__ == '__main__'. For a subtler example, consider code that builds a gigantic list, which you intend to pass out to worker processes to crawl over. You probably want to protect that too, because there's no point in this case to make each worker process waste RAM and time building their own useless copies of the gigantic list.
+So you need to think a bit about which code you want executed only in the main program. 
+The most obvious example is that you want code that creates child processes to run only in the main program - so that should be protected by __name__ == '__main__'. 
+For a subtler example, consider code that builds a gigantic list, which you intend to pass out to worker processes to crawl over. 
+You probably want to protect that too, because there's no point in this case to make each worker process waste RAM and time building their own 
+useless copies of the gigantic list.
 
-Note that it's a Good Idea to use __name__ == "__main__" appropriately even on Linux-y systems, because it makes the intended division of work clearer. Parallel programs can be confusing - every little bit helps ;-)
+Note that it's a Good Idea to use __name__ == "__main__" appropriately even on Linux-y systems, because it makes the intended division of work clearer. 
+Parallel programs can be confusing - every little bit helps ;-)
 
 
