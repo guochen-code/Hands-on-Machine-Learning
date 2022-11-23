@@ -17,7 +17,7 @@ shut down.
 ****************************************************************************************************************************************************************
 
 
-however, it can be shutdown running python on local machine........not on gunicorn though...........??????????????????????????????????????
+however, it can be shutdown using SIGTERM when running python on local machine........not on gunicorn though...........??????????????????????????????????????
 
 
 
@@ -42,7 +42,7 @@ while True:
     print('waking up.............................................')
     
     
-listener.py
+listener.py ############################# no infinite loop here
 import time
 class Listener:
     def __init__(self, opla_job_number):
