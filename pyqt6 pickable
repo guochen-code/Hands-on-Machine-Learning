@@ -1,0 +1,60 @@
+import multiprocessing
+import time
+from pickle import dump
+from pickle import load
+
+import sys
+from PyQt6.QtCore import *
+
+
+class MyClass(QObject):
+    def __init__(self, parent=None):
+        super(MyClass, self).__init__(parent)
+        self.name = 'cc'
+
+    def get(self):
+        print('My name is:', self.name)
+
+    def __getstate__(self):
+        # print("I'm being pickled")
+        return self.__dict__
+
+    def __setstate__(self,state):
+        self.__dict__.update(state)
+        super(MyClass, self).__init__()
+
+
+name = MyClass()
+
+
+# dump(name, open('name.pkl', 'wb'))
+# name_unpickled = load(open('name.pkl', 'rb'))
+# print(name_unpickled.get())
+
+
+def calc_square(numbers, name):
+    for n in numbers:
+        time.sleep(1)
+        print('square ' + str(n * n))
+        print(name.get())
+
+
+def calc_cube(numbers, name):
+    for n in numbers:
+        time.sleep(2)
+        print('cube ' + str(n * n * n))
+        print(name.get())
+
+
+if __name__ == "__main__":
+    arr = [2, 3, 8]
+    p1 = multiprocessing.Process(target=calc_square, args=(arr, name))
+    p2 = multiprocessing.Process(target=calc_cube, args=(arr, name))
+
+    p1.start()
+    p2.start()
+
+    p1.join()
+    p2.join()
+
+    print("Done!")
