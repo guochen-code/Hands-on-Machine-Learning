@@ -1,0 +1,17 @@
+import hashlib
+import uuid
+
+username=''
+password=''
+salt=''
+argu=username+password+salt
+print(argu)
+
+m = hashlib.md5()
+m.update(argu.encode('utf-8'))
+new_uuid = uuid.UUID(m.hexdigest())
+new_uuid
+-> UUID('d41d8cd9-8f00-b204-e980-0998ecf8427e')
+#convert to string
+str(new_uuid)
+-> 'd41d8cd9-8f00-b204-e980-0998ecf8427e'
