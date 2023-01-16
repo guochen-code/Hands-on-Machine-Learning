@@ -1,0 +1,101 @@
+Common Questions
+This section lists common questions related to the number of worker processes in the multiprocessing Pool.
+
+Do you have a question about setting the number of processes?
+Let me know in the comments and I will do my best to answer it and add it to this section.
+
+What is a CPU and What is a CPU Core?
+A central processing unit or simply “processor” or “CPU” is a chip in the computer that executes instructions.
+
+Traditionally, we had one CPU in the computer, perhaps with a math coprocessor.
+
+CPU: Central processing unit, a chip within the computer for executing instructions.
+A core is another name for a physical CPU for executing instructions.
+
+A computer with multiple CPUs is referred to as having multiple cores.
+
+Similarly, a computer chip that has multiple CPUs within it, is referred to as a multi-core processor.
+
+Multi-core processor: A physical chip with multiple CPUs or cores.
+As such, as developers, the terms “CPUs” and “cores” are used interchangeably. We might even refer to them as “CPU cores”.
+
+Almost all modern computers have multiple cores.
+
+What are Physical CPUs vs Logical CPUs?
+Modern CPUs typically make use of a technology called hyperthreading.
+
+Hyperthreading does not refer to a program using threads. 
+Instead, it refers to a technology within the CPU cores themselves that allows each physical core or CPU to act as if it were two logical cores or two CPUs.
+
+Physical Cores: The number of CPU cores provided in the hardware, e.g. the chips.
+Logical Cores: The number of CPU cores after hyperthreading is taken into account.
+It provides automatic in-core parallelism that can offer up to a 30% speed-up over CPU cores that do not offer the technology.
+
+As such, when we count CPU cores in a system, we typically count the number of logical CPU cores, not the number of physical CPU cores.
+
+If you know your system uses hyperthreading (it probably does), then you can get the number of physical CPUs in your system 
+by dividing the number of logical CPUs by two.
+
+Count Physical Cores = Count Logical Cores / 2
+What is the Default Number of Processes in the Pool?
+The default number of processes in the multiprocessing.pool.Pool is equal to the number of logical CPU cores in your system.
+
+For example:
+
+Total Number Worker Processes = CPUs in Your System
+Where the number of CPUs in your system is determined by Python and will take hyperthreading into account.
+
+For example if you have two CPU cores each with hyperthreading (which is common), then Python will detect four CPUs in your system.
+
+How Many CPU Cores Do I Have?
+There are a number of ways to determine the number of CPU cores in your system.
+
+Some functions include:
+
+multiprocessing.cpu_count() function
+os.cpu_count() function.
+For example:
+
+...
+# get the number of logical cpu cores
+n_cores = multiprocessing.cpu_count()
+You can learn more in the tutorial:
+
+Number of CPUs in Python
+Should The Number of Processes in the Pool Match the Number of CPUs or Cores?
+The number of worker processes in the multiprocessing.pool.Pool should probably match the number of CPU cores in your system if your tasks are CPU-bound.
+
+This is a good default.
+
+If your tasks are IO-bound you may set the number of processes to be equal to or a factor of the number of tasks you wish to complete. 
+Although, your operating system may limit the number of processes you’re able to create, e.g. 61 on Windows.
+
+If you require hundreds or thousands of concurrent tasks executed and they are IO-bound, consider using the ThreadPoolExecutor instead.
+
+How Many Processes Should I Use?
+You should probably set the number of processes to be equal to the number of logical CPU cores in your system, e.g. the default.
+
+By default: Set to the number of logical CPU cores.
+If you are expecting to perform computational work in the main process in addition to the process pool, 
+consider setting the number of processes in the pool to be equal to the number of logical CPUs in your system minus one, to allow the main process to execute.
+
+If the main process is computationally intensive: Set to the number of logical CPU cores minus one.
+If you have particularly CPU intensive tasks, consider configuring the number of processes to be equal to the number of physical CPUs 
+instead of the number of logical CPUs.
+
+If tasks are computationally intensive: Set to the number of physical CPU cores.
+What is the Maximum Number of Worker Processes in the Pool?
+The maximum number of worker processes may be limited by your operating system.
+
+For example, on windows, you will not be able to create more than 61 child processes in your Python program.
+
+Other operating systems like macOS and Linux may impose an upper limit on the number of processes that may be spawned or forked.
+
+Additionally, your system will have an upper limit of the number of processes you can create based on how much main memory (RAM) you have available.
+
+Nevertheless, before you exceed main memory, you will reach a point of diminishing returns in terms of adding new processes and executing more tasks. 
+This is because your operating system must switch between the processes, called context switching. With too many processes active at once, 
+your program may spend more time context-switching than actually executing tasks.
+
+A sensible upper limit for most applications is to set the number of processes to be equal to the number of logical CPU cores or the number of physical CPU cores 
+in your system.
