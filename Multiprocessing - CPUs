@@ -1,3 +1,16 @@
+The number of processes running concurrently on your computer is not limited by the number of cores. 
+In fact you probably have hundreds of programs running right now on your computer - each with its own process. 
+To make it work the OS assigns one of your 8 processors to each process or thread only temporarily - 
+at some point it may get stopped and another process will take its place. See What is the difference between concurrent programming and parallel programming? 
+if you want to find out more.
+
+Edit: Assigning more processes in your uploading example may or may not make sense. 
+Reading from disk and sending over the network is normally a blocking operation in python. 
+A process that waits for its chunk of data to be read or sent can be halted so that another process may start its IO. 
+On the other hand, with too many processes either file I/O or network I/O will become a bottleneck and your program will slow down 
+because of the additional overhead needed for process switching.
+
+**********************************************************************************************************************************************************
 Common Questions
 This section lists common questions related to the number of worker processes in the multiprocessing Pool.
 
