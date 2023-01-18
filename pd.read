@@ -1,0 +1,42 @@
+****************** read from local files
+# differentiate delimiters - tsv - tab separated file
+data = pd.read_csv(filepath, sep='\t')
+
+# space seprated file
+data =pd.read_csv(filepath, delim_whitespace=True)
+
+# not use 1st row as header
+data = pd.read_csv(filepath, header=None)
+
+# specify column names
+data = pd.read_csv(filepath, names=['name1','name2',...])
+
+# custom missing values
+data = pd.read_csv(filepath, na_values=['NA',99])
+
+# json read and write to json
+data = pd.read_json(filepath)
+data.to_json('output.json')
+
+
+****************** read SQL to dataframe
+import sqlite3 as sq3
+import pandas as pd
+
+path='data/database_name.db'
+con= sq3.Connection(path)
+query='''select * from <table_name>'''
+data=pd.read_sql(query,con)
+
+****************** read NoSQL
+from pymongo import MongoClient
+
+con=MongoClient()
+con.list_database_names() # list avaialble databases
+db=con.<database_name>
+cursor=db.<collection_name>.find(<query>) # collection_name like table_name, query should be replaced with a MongoDB query string
+df = pd.Dataframe(list(cursor))
+
+****************** read from url
+data_url='http://.....'
+df = pd.read_csv(data_url,header=None)
