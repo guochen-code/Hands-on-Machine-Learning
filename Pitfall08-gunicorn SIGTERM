@@ -1,3 +1,9 @@
+************************** linux commands
+kill -9 <pid> # sigkill
+kill -15 <pid> # sigterm
+ps -elf
+pstree -p
+**************************
 I am seeing a weird behavior where Gunicorn does not shutdown immediately when sent a SIGTERM. 
 
 Do you have open connections when this happens? If so, that is expected. SIGTERM is a graceful shutdown and subject to the --graceful-timeout setting (default 30s).
