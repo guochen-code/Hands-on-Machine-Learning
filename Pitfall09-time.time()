@@ -1,0 +1,15 @@
+******************************************************************** before assignment
+time.time()
+time is refered before assignment
+
+reason:duplication variable name
+somewhere in the code:
+for time in lst:
+  ......
+   ......
+   
+******************************************************************** need to create 
+X_single is not created
+reason:
+above the code
+X_signle = round(function(x1,x2) # miss close ")"
