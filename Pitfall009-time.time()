@@ -1,0 +1,10 @@
+time.time()
+time is refered before assignment
+
+reason:duplication variable name
+somewhere in the code:
+for time in lst:
+  ......
+   ......
+   
+   
