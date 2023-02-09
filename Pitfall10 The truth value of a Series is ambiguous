@@ -1,0 +1,27 @@
+The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().; python error::__nonzero__,1537 
+
+def Z_formula(SBP_bestPoint,targetSBP_bestPoint,overShoot_bestpoint,distance_ratio):
+    
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+~\AppData\Local\Temp\ipykernel_18376\1119397204.py in <module>
+----> 1 Z_formula(X_next['how much to trap'],X_next['how much to trap'],X_next['how much to trap'],X_next['how much to trap'])
+
+~\AppData\Local\Temp\ipykernel_18376\769121494.py in Z_formula(SBP_bestPoint, targetSBP_bestPoint, overShoot_bestpoint, distance_ratio)
+      8     Z_LM = max(0,1.0 - LM)
+      9     diff_marking = abs(distance_ratio-1.0)/3
+---> 10     Z_RM = max(0,1.0 - diff_marking/3)
+     11     Z_score = Z_LM * 0.75 + Z_RM * 0.25
+     12     return Z_score
+
+~\Anaconda3\lib\site-packages\pandas\core\generic.py in __nonzero__(self)
+   1525     @final
+   1526     def __nonzero__(self):
+-> 1527         raise ValueError(
+   1528             f"The truth value of a {type(self).__name__} is ambiguous. "
+   1529             "Use a.empty, a.bool(), a.item(), a.any() or a.all()."
+
+ValueError: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+
+*********************************************************************************************************************************************************
+Z_formula(X_next['how much to trap'][0],X_next['how much to trap'][0],X_next['how much to trap'][0],X_next['how much to trap'][0])
