@@ -1,0 +1,7 @@
+(base): conda env list
+-> <target_env>
+(base): conda activate <target_env>
+(target_env): which python
+-> <interpreter_path>
+
+go to pycharm - new project page - existing interpreter - 3 dots - conda environment - 3 dots - paste the <interpreter_path>
