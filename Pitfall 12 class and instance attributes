@@ -1,0 +1,11 @@
+class MyClass():
+    def __init__(self,a,b):
+        self.a=a
+        self.b=b
+        
+MyClass.a --> AttributeError: type object 'MyClass' has no attribute 'a'
+
+c=MyClass(1,2)
+c.a --> 1
+
+# self is the key, it means an instance
