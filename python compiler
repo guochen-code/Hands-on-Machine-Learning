@@ -1,0 +1,12 @@
+python3 -m py_comple hello.py
+# this file will be stored in pycache folder
+ls __pycache__
+
+# look inside
+cat __pycache__/hello.cpython-38.pyc
+
+# a bunch of human unreadables
+
+# convert to readable
+
+python3 -m dis hello.py
