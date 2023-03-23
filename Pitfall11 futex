@@ -3,3 +3,5 @@ process hanging forever
 
 --- xgboost model - not ok
 --- sklearn model - ok
+
+multiprocessing.set_start_method('spawn')
