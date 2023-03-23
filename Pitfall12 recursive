@@ -1,0 +1,41 @@
+def get_input():
+    my_var = input('Enter "a" or "b":')
+    if my_var !='a' and my_var !='b':
+        print('You did not type "a" or "b". Try again.')
+        get_input()
+    else:
+        return my_var
+    
+print('got input:', get_input())
+
+
+def get_input():
+    my_var = input('Enter "a" or "b":')
+    if my_var !='a' and my_var !='b':
+        print('You did not type "a" or "b". Try again.')
+        return get_input()
+    else:
+        return my_var
+    
+print('got input:', get_input())
+
+
+so while the recursion does happen, the return value gets discarded, and then you fall off the end of the function. 
+Falling off the end of the function means that pyhton implicitly return None, just like this:
+
+def (x): 
+  pass
+print(f(2)) ---> None
+
+-----------------------------------------------------
+
+# in which the recursive calls misses a return. It thus evaluates to None whenever it recurses.
+
+def recurse(n):
+    if n == 0:
+        return "Done"
+    recurse(n-1)   # missing return
+
+print(recurse(5))  # prints None
+---> 
+None
