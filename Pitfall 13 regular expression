@@ -1,0 +1,21 @@
+******************************************************************************************************
+In regular expressions, the * character means "match the preceding character zero or more times". 
+******************************************************************************************************
+
+In your pattern, the preceding character is 4, which means the * matches zero occurrences of 4.
+To match the entire string up to the last digit, you can modify the pattern to match any sequence of one or more digits (\d+) at the end of the string, like this:
+
+import re
+
+r1 = r'OPLA-1234\d+$'
+regex = re.compile(r1)
+opla_job='OPLA-123599'
+re.findall(regex, opla_job)
+
+Here, we've removed the * from the pattern and replaced it with \d+, which means "match one or more digits". 
+We've also added the $ character at the end of the pattern to anchor it to the end of the string. 
+This ensures that we match only the digits at the end of the string and not any other characters that may follow.
+
+
+r1 = r'OPLA-1234*'    vs    r1 = r'OPLA-1234\d+$'     vs    r1 = r'OPLA-12345*'
+
