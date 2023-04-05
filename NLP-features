@@ -12,6 +12,7 @@ still need a dictionary = [I, am, happy, sad] ---->
 use this dictionary and class 1 and class 2 data to create a frequency dictionary for each class
 use frequency dictionaries to generate feature vectors
 [1, sum pos. frequencies, sum neg. frequencies] # 1 is for bias # sum pos. frequencies generated from instance and pos. frequency dictionary
+# the key here it is 3 dimension vector, less storage, fater training
 example:
 class 1: [I am happy, I am happy]
 class 2: [i am sad, i am sad]
