@@ -1,0 +1,20 @@
+(1) vocabulary
+create a dictionary consists of each unique word in the corpus
+example:
+I am happy; I am sad
+dictionary=[I, am, happy, sad]
+I am happy = [1,1,1,0]
+I am sad = [1,1,0,1]
+problems: large dictionary, a lot of zeros, large training and prediction time
+
+(2) counts
+still need a dictionary = [I, am, happy, sad] ---->
+use this dictionary and class 1 and class 2 data to create a frequency dictionary for each class
+use frequency dictionaries to generate feature vectors
+[1, sum pos. frequencies, sum neg. frequencies] # 1 is for bias # sum pos. frequencies generated from instance and pos. frequency dictionary
+example:
+class 1: [I am happy, I am happy]
+class 2: [i am sad, i am sad]
+class 1 frequency dictionary = [2,2,2,0] <----
+class 1 frequency dictionary = [2,2,0,2] <----
+
