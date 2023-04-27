@@ -1,0 +1,46 @@
+import datetime
+start_date='2023-04-01'
+start_date_obj=datetime.datetime.strptime(start_date, '%Y-%m-%d') 
+start_dt = datetime.datetime.combine(start_date_obj, datetime.time.min) 
+start_timestamp = int(start_dt.timestamp() * 1000)
+
+end_date='2023-04-02'
+end_date_obj=datetime.datetime.strptime(start_date, '%Y-%m-%d') 
+end_dt = datetime.datetime.combine(start_date_obj, datetime.time.max) 
+end_timestamp = int(start_dt.timestamp() * 1000)
+
+start_date_obj,start_dt,start_timestamp
+--->
+(datetime.datetime(2023, 4, 1, 0, 0),
+ datetime.datetime(2023, 4, 1, 0, 0),
+ 1680328800000)
+ 
+ end_date_obj,end_dt,end_timestamp
+ --->
+ (datetime.datetime(2023, 4, 1, 0, 0),
+ datetime.datetime(2023, 4, 1, 23, 59, 59, 999999),
+ 1680328800000)
+ 
+ 
+datetime.datetime.combine(start_date_obj, datetime.time(8,0,0)) ---> datetime.datetime(2023, 4, 1, 8, 0)
+datetime.datetime.combine(start_date_obj, datetime.time(12,0,0)) ---> datetime.datetime(2023, 4, 1, 12, 0)
+datetime.datetime.combine(start_date_obj, datetime.time(16,10,2)) ---> datetime.datetime(2023, 4, 1, 16, 10, 2)
+
+**************************************************************************************************************************************
+ 
+from datetime import datetime, timedelta
+import pytz
+
+def get_start_end_timestamps(start_date, end_date, timezone=0):
+    tz = pytz.FixedOffset(timezone * 60)
+    
+    start_dt = datetime.strptime(start_date, '%Y-%m-%d').replace(tzinfo=tz)
+    end_dt = datetime.strptime(end_date, '%Y-%m-%d').replace(tzinfo=tz) + timedelta(days=1) - timedelta(seconds=1)
+    
+    start_timestamp = int(start_dt.timestamp() * 1000)
+    end_timestamp = int(end_dt.timestamp() * 1000)
+    
+    return start_timestamp, end_timestamp
+
+get_start_end_timestamps('2023-04-01', '2023-04-02',-6) ---> (1680328800000, 1680501599000)
+
