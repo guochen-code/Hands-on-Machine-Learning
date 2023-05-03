@@ -19,3 +19,15 @@ This ensures that we match only the digits at the end of the string and not any 
 
 r1 = r'OPLA-1234*'    vs    r1 = r'OPLA-1234\d+$'     vs    r1 = r'OPLA-12345*'
 
+**************************************************************************************************************************************************** extension
+import re
+
+text = "The price is $3.50. It's 20.5 degrees Celsius today! 0.32 .3 3."
+text = re.sub("(?<!\d)\.|\.(?!\d)|[',!@#$?-]", '', text)
+
+print(text)
+--->
+The price is 3.50 Its 20.5 degrees Celsius today 0.32 3 3
+
+# Combining both parts, the pattern (?<!\d)\.|\.(?!\d) matches any dot character that is not immediately preceded or followed by a digit. 
+This pattern can be used to remove all dots except for the ones between numbers.
