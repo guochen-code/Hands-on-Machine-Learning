@@ -1,0 +1,35 @@
+folder_name
+  __init__.py
+  script-1.py
+  script-2.py
+
+**************************************************************************************************************
+in __init__.py file:
+
+from .script-1 import *
+from .script-2 import *
+
+__all__ = (script-1.__all__ + 
+            script-2.__all__)
+            
+**************************************************************************************************************            
+in script-1.py file:            
+
+__all__ = ['MyClass'] # MyFunction will not be accessible
+
+class MyClass:
+    pass
+        
+def MyFunction():   
+  pass
+  
+**************************************************************************************************************  
+in script-2.py file:            
+
+__all__ = ['fun_1'] # fun_2 will not be accessible
+
+class fun_1:
+    pass
+        
+def fun_2():
+  pass
