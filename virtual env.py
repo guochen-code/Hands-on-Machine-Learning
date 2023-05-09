@@ -97,3 +97,13 @@ import numpy
 print(matplotlib.__version__)
 print(pandas.__version__)
 print(numpy.__version__)
+******************************************************************************************************************************************************
+VS code
+(1) python3.10 -m venv .venv # will create a folder named as .venv with a bunch of files inside, along with python interpreter
+(2) select a python interpreter inside .venv
+  Mac: command + shift + p
+  Windows: control + shift + p
+(3) need to restart, so close the existing terminal
+(4) open a new terminal: 
+  Mac: command + j
+  Windows: control + j
