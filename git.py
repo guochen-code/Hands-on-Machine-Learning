@@ -1,3 +1,15 @@
+git init (git init is a command used to initialize a new Git repository. It creates a new subdirectory named ".git" in the current working directory and sets up all the necessary files and directories needed to start tracking changes to your project. Once you have initialized a Git repository, you can start using Git to manage your project's version control history, make commits, and collaborate with others.)
+git remote add origin <remote repository URL>
+(If the URL for the remote repository is incorrect, you can update it by running the following command: git remote set-url origin <new_url>)
+git fetch origin
+git merge origin/master
+
+### make changes locally
+git status
+git add .
+git commit -m "Commit message"
+git push origin master
+************************************************************************************************************************************************
 git add : add to staging environment
 git commit : commit the changes
 ******************************************************************** Part I ********************************************************************
