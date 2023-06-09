@@ -4,5 +4,64 @@ class 1 = [1,0,0]; class 2 = [0,1,0]; class 3 = [0,0,1]
 
 from keras.utils import to_categorical
 y=to_categorical(y)
+y.shape
 
 *******************************************************************
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.3,random_state=42)
+
+********************************************************************
+
+from sklearn.preprocessing import MinMaxScaler
+scaler_object = MinMaxScaler()
+scaler_object.fix(X_train)
+scaled_X_train = scaler_object.transform(X_train)
+scaled_X_test = scaler_object.transform(X_test)
+
+********************************************************************
+from keras.models import Sequential
+from keras.layers import Dense
+
+model = Sequential()
+model.add(Dense(8,inout_dim=4,activation='relu'))
+model.add(Dense(8,inout_dim=4,activation='relu'))
+model.add(Dense(3,activation='softmax')) # 3 classes
+
+model.compile(loss='catogorical_crossentropy', optimizer = 'adam', metrics=['accuracy'])
+
+model.summary()
+
+model.fit(scaled_X_train,y_train, epochs=150,verbose=2)
+
+model.predict(scaled_X_test) # give probabilities
+model.predict_classes(scaled_X_test) # give predicted class [1], [2] but we want [1,0,0], [0,1,0], cause problem when comparing with y_test
+
+# transform y_test
+y_test.argmax(axis=1)
+
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
+confusion_matrix(y_test.argmax(axis=1), predictions))
+accuracy_score(y_test.argmax(axis=1),predictions))
+
+# save large model
+model.save('modelname.h5')
+from keras.models import load_model
+new_model=load_model('modelname.h5')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
