@@ -1,0 +1,8 @@
+one-hot encoding target
+y = [1,2,3]
+class 1 = [1,0,0]; class 2 = [0,1,0]; class 3 = [0,0,1]
+
+from keras.utils import to_categorical
+y=to_categorical(y)
+
+*******************************************************************
