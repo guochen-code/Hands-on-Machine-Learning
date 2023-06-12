@@ -1,0 +1,17 @@
+Logistic regression makes use of the sigmoid function which outputs a probability between 0 and 1.
+
+h(x(i),theta) = 1 / (1+e-theta*x(i))
+
+input: x(i) & theta
+output y_predict
+cost function: y_predict vs y
+
+# find theta that minimizes the cost function
+
+(1) initialize theta                              theta
+(2) calculate y_predict using initial theta       h=h(X,theta)
+(3) calculate the gradient of cost function       gradient=(1/m)*X*(h-y)
+(4) update theta                                  theta=theta-alpha*gradient
+(5) calculate loss                                J(theta)
+(6) max number of iterations or stop-parameter
+
