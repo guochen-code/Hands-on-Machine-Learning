@@ -14,3 +14,8 @@ internally, it will do, create 1 here and will broadcast:
 it is a bug
 the issue comes from sliently adding the dimension here, which is 1
 need to keepdims = True !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+###################### another trick
+p = p /p,sum(1,keepdim=True)
+--->
+p /= p.sum(1,keepdim=True) # inplace operation, faster, less memory
