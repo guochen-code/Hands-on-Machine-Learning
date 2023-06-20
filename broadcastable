@@ -28,3 +28,6 @@ each row summartion == 1
 ################### another way to think of softmax
 logits = encoded_input * Weights
 counts = logits.exp() # logits can be negative or positive. using exp() will make sure all positives with all original negatives converted to [0,1]
+# so that we can normalize it and generate new numbers that can represent probabilities with sum of them == 1
+
+
