@@ -19,3 +19,7 @@ need to keepdims = True !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 p = p /p,sum(1,keepdim=True)
 --->
 p /= p.sum(1,keepdim=True) # inplace operation, faster, less memory
+
+################# how to normalize each row
+probs = counts / counts.sum(1,keepdim=True)
+each row summartion == 1
