@@ -1,0 +1,16 @@
+(1) align starting from the right, going to left
+example:
+D1 = torch.Size([27,27])
+D2 = torch.Size([27])
+# 27 27
+#    27
+
+(2) the dimension sizes must either be equal, one of them is 1, or one of them does not exist.
+
+internally, it will do, create 1 here and will broadcast:
+# 27 27
+# 1  27
+
+it is a bug
+the issue comes from sliently adding the dimension here, which is 1
+need to keepdims = True !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
