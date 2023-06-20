@@ -23,3 +23,8 @@ p /= p.sum(1,keepdim=True) # inplace operation, faster, less memory
 ################# how to normalize each row
 probs = counts / counts.sum(1,keepdim=True)
 each row summartion == 1
+
+
+################### another way to think of softmax
+logits = encoded_input * Weights
+counts = logits.exp() # logits can be negative or positive. using exp() will make sure all positives with all original negatives converted to [0,1]
