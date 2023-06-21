@@ -1,0 +1,78 @@
+------------------------------------------------------------------------------------------------------------ context of the problem:
+# assign correct probability at initialization by chance, very low loss
+
+logits = torch.tensor([0.0,0.0,5.0,0.0]) # logits is prediction, go to softmax for probability
+probs=torch.softmax(logits,dim=0) # considered probability assigned to each character
+print(probs)
+print(probs[2])
+loss=-probs[2].log() # 2 means that the real target is character 2 which is at index 2 of logits
+loss
+---->
+tensor([0.0066, 0.0066, 0.9802, 0.0066])
+tensor(0.9802)
+[237]:
+tensor(0.0200)
+
+
+------------------------------------------------------------------------------------------------------------ my interpretation:
+'''
+in classification problem:
+
+logits is initial predicted output for one input sample, logits is an array of numbers, one number corresponds to one classe
+logits needs to be converted to probabilities using softmax because we want calculated probability distribution of all classes for this input sample
+the reason we want probability is that we want to select a class, this is the final prediction
+we select the class with highest probability as the final prediction
+once we have the final predicted class
+
+loss is to compare predicted class vs real class for this input sample
+first use real class to get the predicted probability assigned to that class in the softmaxed logits
+if the probability is high, which means logits is high, it means good prediction and small or no loss
+
+'''
+
+
+------------------------------------------------------------------------------------------------------------ even the highest probability happens to be the right class position, there will be still a loss if probabilities for non-target classes are close to the highest probability
+
+logits = torch.tensor([1.0,1.1,1.0,1.0]) 
+probs=torch.softmax(logits,dim=0) 
+print(probs)
+print(probs[2])
+loss=-probs[2].log() 
+loss
+--->
+tensor([0.2436, 0.2692, 0.2436, 0.2436])
+tensor(0.2436)
+[251]:
+tensor(1.4122)
+
+
+------------------------------------------------------------------------------------------------------------ probability = 1, no loss; probability = 0, infinit loss
+for i in torch.arange(0,1.1,0.1):
+    print('.....:',i)
+    assigned_probability_for_target_class = torch.tensor(i)  # it is one probability from the probability distribution 
+    loss = - assigned_probability_for_target_class.log()
+    print(loss)
+    
+---->
+.....: tensor(0.)
+tensor(inf)
+.....: tensor(0.1000)
+tensor(2.3026)
+.....: tensor(0.2000)
+tensor(1.6094)
+.....: tensor(0.3000)
+tensor(1.2040)
+.....: tensor(0.4000)
+tensor(0.9163)
+.....: tensor(0.5000)
+tensor(0.6931)
+.....: tensor(0.6000)
+tensor(0.5108)
+.....: tensor(0.7000)
+tensor(0.3567)
+.....: tensor(0.8000)
+tensor(0.2231)
+.....: tensor(0.9000)
+tensor(0.1054)
+.....: tensor(1.)
+tensor(-0.)
