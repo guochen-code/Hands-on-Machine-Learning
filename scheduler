@@ -1,0 +1,30 @@
+import schedule
+import time
+
+def job():
+    # Your code here
+    print("Executing scheduled job")
+    print(time.time())
+
+schedule.every(1).seconds.do(job)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+
+
+########################################################################################################################
+
+schedule.every().monday.at("08:00").do(job)
+schedule.every(1).seconds.do(job)
+schedule.every().month.do(job) # 1st day every month
+schedule.every().day.at('00:00').do(job).tag('monthly', '10th')
+schedule.every(2).hours.do(job)
+schedule.every(3).days.do(job)
+
+
+# every 3 hours on monday and friday
+schedule.every().monday.at("00:00").do(job)
+schedule.every().friday.at("00:00").do(job)
+schedule.every(3).hours.do(job)
+
