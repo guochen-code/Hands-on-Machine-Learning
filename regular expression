@@ -1,0 +1,13 @@
+digit: \d
+phone number: r'\d{3}-\d{3}-\d{4}'
+
+match = re.search(pattern,text) #################### return first match
+match.span() -> (start index ,end index) # tuple
+match.start() # index position of start
+match.end() # index position of end
+
+all_matches = re.findall(pattern,text) # return a list of match
+
+for match in re.finditer(pattern,text):
+  print(match.span())
+
