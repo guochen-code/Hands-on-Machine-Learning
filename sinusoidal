@@ -1,0 +1,58 @@
+PE(pos, 2i) = sin(pos / (10000^(2i/d_model)))
+PE(pos, 2i+1) = cos(pos / (10000^(2i/d_model)))
+where d_model is the dimensionality of the input embedding.
+The index 'i' represents the index of the dimension in the positional encoding vector, and it should actually range from 0 to (d_model/2) - 1.
+
+##############################################################################################################################################################################
+
+By using different frequencies (controlled by the index 'i') and scaling factors (determined by the dimension 'd_model'), 
+the sinusoidal functions create distinct patterns that help differentiate positions in the sequence. 
+This uniqueness is crucial for the model to capture the positional information and generalize it effectively.
+
+The index 'i' represents the index of the dimension in the positional encoding vector, and it should actually range from 0 to (d_model/2) - 1.
+
+##############################################################################################################################################################################
+
+Step 1: Tokenization
+The sentence is first tokenized into individual words, resulting in the following tokens: ['I', 'love', 'natural', 'language', 'processing'].
+
+Step 2: Word Embedding (because it is 4D, so positional vector must be 4D)
+Each token is embedded into a fixed-size vector representation called a word embedding. Let's assume each word is embedded into a 4-dimensional vector.
+
+Step 3: Positional Encoding
+For each position in the input sequence, we compute a unique positional encoding vector.
+
+Assuming a maximum sequence length of 5 (including padding), the positional encoding vectors are calculated as follows:
+
+Position 0:
+
+PE(0, 0) = sin(0 / (10000^(0/4))) = 0
+PE(0, 1) = cos(0 / (10000^(0/4))) = 1
+PE(0, 2) = sin(0 / (10000^(2/4))) = 0
+PE(0, 3) = cos(0 / (10000^(2/4))) = 1
+Position 1:
+
+PE(1, 0) = sin(1 / (10000^(0/4))) = 0.84147098
+PE(1, 1) = cos(1 / (10000^(0/4))) = 0.54030231
+PE(1, 2) = sin(1 / (10000^(2/4))) = 0.90929743
+PE(1, 3) = cos(1 / (10000^(2/4))) = -0.41614684
+Position 2:
+
+PE(2, 0) = sin(2 / (10000^(0/4))) = 0.90929743
+PE(2, 1) = cos(2 / (10000^(0/4))) = -0.41614684
+PE(2, 2) = sin(2 / (10000^(2/4))) = -0.7568025
+PE(2, 3) = cos(2 / (10000^(2/4))) = -0.65364362
+Position 3:
+
+PE(3, 0) = sin(3 / (10000^(0/4))) = -0.7568025
+PE(3, 1) = cos(3 / (10000^(0/4))) = -0.65364362
+PE(3, 2) = sin(3 / (10000^(2/4))) = 0.98935825
+PE(3, 3) = cos(3 / (10000^(2/4))) = -0.14550003
+Position 4:
+
+PE(4, 0) = sin(4 / (10000^(0/4))) = -0.95892427
+PE(4, 1) = cos(4 / (10000^(0/4))) = 0.28366219
+PE(4, 2) = sin(4 / (10000^(2/4))) = 0.41211849
+PE(4, 3) = cos(4 / (10000^(2/4))) = 0.91151115
+
+##############################################################################################################################################################################
