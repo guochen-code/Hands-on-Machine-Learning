@@ -56,3 +56,16 @@ PE(4, 2) = sin(4 / (10000^(2/4))) = 0.41211849
 PE(4, 3) = cos(4 / (10000^(2/4))) = 0.91151115
 
 ##############################################################################################################################################################################
+summary:
+position 0 - 4 : fixed max sequence length is 5
+PE(0,0) - (0,3) : 4D vector, same as embeded vector
+
+
+in multi-head attention, each head has its own set of learned weight matrices for key, value, and query. 
+This means that for each head, there are separate sets of parameters that are used to transform the input embeddings into key, value, and query vectors.
+Overall, the use of multiple heads with separate key, value, and query matrices allows the model to capture different patterns and dependencies in the data, 
+enhancing its ability to learn and represent complex relationships within the input sequence.
+
+
+
+
