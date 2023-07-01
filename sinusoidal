@@ -67,5 +67,15 @@ Overall, the use of multiple heads with separate key, value, and query matrices 
 enhancing its ability to learn and represent complex relationships within the input sequence.
 
 
+Yes, that's correct. The key, value, and query vectors are derived from the input embedding vector, 
+but in the attention calculation, only the key, value, and query vectors are used to compute the attention scores. 
+The input embedding vector itself is not directly involved in the calculation of attention scores.
 
+The purpose of deriving separate key, value, and query vectors from the input embedding vector is to provide different representations or views of 
+the input that capture different aspects or dimensions of information. The key and value vectors help determine the relevance or importance of each value 
+in relation to a given query, while the query vector represents the context or information being queried.
+
+By separating the key, value, and query vectors and allowing them to interact through the attention mechanism, 
+the model can capture complex relationships and dependencies between different parts of the input sequence, 
+facilitating effective information processing and context understanding.
 
