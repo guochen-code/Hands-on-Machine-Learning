@@ -79,3 +79,8 @@ By separating the key, value, and query vectors and allowing them to interact th
 the model can capture complex relationships and dependencies between different parts of the input sequence, 
 facilitating effective information processing and context understanding.
 
+#### word embedding:
+So, to summarize:
+The values of the embeddings themselves are initially random and have no inherent semantic meaning.
+The weights between the input layers and the next layers are learned and adjusted during training to capture the relationships and patterns in the data.
+The adjustments of these weights are done through backpropagation and gradient descent to optimize the model's performance.
