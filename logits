@@ -76,3 +76,15 @@ tensor(0.2231)
 tensor(0.1054)
 .....: tensor(1.)
 tensor(-0.)
+
+################################################################################################################################ what is a linear layer ???
+
+In the case of a linear layer, the matrix multiplication is performed between the input tensor and the weight matrix of the linear layer.
+
+In a linear layer, the weight matrix determines the number of neurons or units in the layer. The shape of the weight matrix is defined as (input_dim, output_dim), where input_dim represents the number of input features or dimensions, and output_dim represents the number of output features or dimensions.
+
+In the case of a linear layer, the number of input features or dimensions is determined by the last dimension of the input tensor. This means that for an input tensor of shape (100, 100, 512), the number of input features or dimensions is 512.
+
+The choice of the last dimension of the input tensor as the number of input features or dimensions in a linear layer is a convention that is commonly used in deep learning frameworks and libraries.
+
+One reason for this convention is the typical layout of data in many machine learning applications. In many cases, data is organized in a multi-dimensional array or tensor where the last dimension represents the different features or channels of the data.
