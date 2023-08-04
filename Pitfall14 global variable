@@ -1,0 +1,11 @@
+In the second code snippet you provided, the reason it works without using the global keyword is 
+because you are only reading the value of the count variable inside the function and not modifying it. 
+In Python, you can read global variables within a function's scope without declaring them as global.
+
+However, if you try to modify the value of the count variable (as you did in the first code snippet), 
+you will need to use the global keyword to indicate that 
+you want to modify the global variable rather than create a new local variable with the same name.
+
+So, in the second code snippet, you're just reading the value of the count variable, 
+which is allowed without using the global keyword. In the first code snippet, 
+you are modifying the value of the count variable, which requires the use of global to indicate that you're modifying the global variable.
