@@ -1,0 +1,11 @@
+benefits:
+(1) read images from folder, each image is 17KB, you read 17KB one by one
+what if you have a bigger file which is 10MB, you read 10MB every time
+
+(2) data augmentation
+carry out preprocessing before storing the data
+augmented data saved as tensorflow records
+
+(3) save embeddings as tensorflow records
+
+(4) shards of tensorflow records, distributed training
