@@ -50,8 +50,18 @@ model.train()
             
             
 
+###########################################################################################################################
+for epoch in range(epochs):
+    
+    train(train_loader, transformer, criterion, epoch)
+    
+    state = {'epoch': epoch, 'transformer': transformer, 'transformer_optimizer': transformer_optimizer}
+    torch.save(state, 'checkpoint_' + str(epoch) + '.pth.tar')
 
-
+checkpoint = torch.load('checkpoint_4.pth.tar',map_location=torch.device('cpu'))
+transformer = checkpoint['transformer']
+print('ready to go !!!')
+###########################################################################################################################
 
 
 
