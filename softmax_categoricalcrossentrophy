@@ -1,0 +1,12 @@
+softmax:
+3 classes - 3 nodes - 3 values
+3 values - 3 probabilities with summation = 1
+p1 = exp(v1)/(exp(v1)+exp(v2)+exp(v3))
+p1+p2+p3=1
+
+
+what get into CategoricalCrossentropy must be logits tensor, if it is not, which means, they are not probabilities with summation =1, then set from_logits=True
+from_logits = False by default, it assumes values to loss function is after softmax
+otherwise, set from_logits=True
+
+from_logits: whether y_pred is expected to be a logits tensor. by default, we assume that y_pred encodes a probability distribution.
