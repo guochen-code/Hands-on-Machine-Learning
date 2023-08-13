@@ -16,3 +16,10 @@ y_true=[1,2]
 y_pred=[[0.05,0.95,0],[0.1,0.8,0.1]]
 cee=tf.keras.losses.SparseCategoricalCrossentropy()
 print(cce(y_true,y_predict).numpy())
+
+
+metrics = [CategoricalAccuracy(name='accuracy'), TopKCategoricalAccuracy(k=2,name='top_k_accuracy')]
+
+model.compile(optimizer=Adam(learning_rate=CONFIGURATION['LEARNING_RATE'],
+              loss=loss_function,
+              metrics=metrics)
