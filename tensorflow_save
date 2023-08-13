@@ -34,3 +34,26 @@ my_model_loaded.summary()
 
 my_model_loaded = my_model.load_weights("weights/my_model_weights") # need to create and initialize my_model by yourself # no .dataxxxxx or .index
 
+
+####################################################################################################################################### checkpoints
+checkpoint_callback = ModelCheckPoint('checkpoints/', monitor='val_loss', verbose=0, save_best_only=False,save_weights_only=False,mode='auto',save_freq='epoch',)
+
+metrics = ['TruePositives(name='tp'), FalsePositives(name='fp'), TrueNegatives(name='tn'), FalseNegatives(name='fn'), BinaryAccuracy(name='accuracy'), Precision(name='precision'),
+            Recall(name='recall'),AUC(name='auc')]
+
+model.compile(optimizer=Adam(learning_rate=0.01),loss=BinaryCrossentropy(),metrics=metrics)
+
+history=model.fit(train_dataset,validation_dataset, epochs=10, verbose=1, callbacks=[checkpoint_callback])
+
+
+
+
+
+
+
+
+
+
+
+
+
