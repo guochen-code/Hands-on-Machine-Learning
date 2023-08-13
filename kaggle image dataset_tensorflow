@@ -1,0 +1,70 @@
+(0) go to account profile and create new api token and save the json file for later use
+(1) !pip install -q kaggle
+(2) !mkdir ~/.kaggle
+    ! cp kaggle.json ~/.kaggle/
+(3) !chmod 600 /root/.kaggle/kaggle.json
+(4) go to dataset page and copy 'copy API command'
+(5) !<paste copy api command here>
+(6) !unzip "path to downloaded zip file" -d "path to target folder"
+
+###############################################################################################################################################################################
+# create tensorflow train_dataset
+
+train_directory = 'path to downloaded train dataset'
+validation_directory = 'path to downloaded validation dataset'
+
+train_dataset = tf.keras.utils.image_dataset_from_directory(
+  train_directory,
+  labels='inferred', # folder structure with folder name as the class name
+  label_mode='int', # class names map to integers, for example, happy=0, angry=1,sad=2 -> change 'int' to 'categorical', becomes onehot: (1,0,0), (0,1,0), (0,0,1) 
+  class_name=None, # you can define variable CLASS_NAME=['angry','happy','sad'], the order(?) and name(!) must match with the folder structure
+  color_mode='rgb',
+  batch_size=32,
+  image_size=(256,256),
+  shuffle=True,
+  seed=None,
+  validation_split=None, # split train_dataset to train and validation, 0.2
+  subset=None, # either 'training' or 'validation'. only used if validation_split is set
+  interpolation='bilinear',
+  follow_links=False,
+  crop_to_aspect_ratio=False,
+  **kwargs
+  )
+# same to create tensorflow validation dataset
+
+###############################################################################################################################################################################
+# check data
+for i in train_dataset.take(1): # 1 batch size
+  print(i)
+
+plt.figure(figsize=(12,12))
+for images, labels in train_datast.take(1):
+  for i in range(16):
+    ax = plt.subplot(4,4,i+1)
+    plt.imshow(images[i]/255.)
+    plt.title(tf.argmax(labels[i],axis=0).numpy()) # convert integers to class name: plt.title(CLASS_NAME[tf.argmax(labels[i],axis=0).numpy()])
+    plt.axis("off")
+
+###############################################################################################################################################################################
+# efficient usage of data
+training_dataset = (
+    train_dataset,
+    prefetch(tf.data.AUTOTUNE) # no need to define batch size here as it was defined above already
+  )
+# same to the validation dataset
+
+###############################################################################################################################################################################
+# need resize and scaling on the images
+# build as a layer in neural network, so when deployed, it has built-in preprocessing functions
+resize_rescale_layer=tf.keras.Sequential([
+  Resizing(image_size,image_size),
+  Rescaling(1./255),
+  ])
+
+  
+                                          
+
+
+
+
+
