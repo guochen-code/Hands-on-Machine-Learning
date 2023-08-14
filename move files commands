@@ -1,0 +1,4 @@
+# Moving multiple audios to a single folder "samples"
+!cat data/testing_list.txt | tail -n 3
+!mkdir -p samples/
+!cp $(cat data/testing_list.txt | tail -n 3) samples/
