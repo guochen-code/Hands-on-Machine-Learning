@@ -2,3 +2,89 @@
 !cat data/testing_list.txt | tail -n 3
 !mkdir -p samples/
 !cp $(cat data/testing_list.txt | tail -n 3) samples/
+
+#################################################################################################################################################################
+def get_train_val_test_split(root: str, val_file: str, test_file: str):
+    """Creates train, val, and test split according to provided val and test files.
+
+    Args:
+        root (str): Path to base directory of the dataset.
+        val_file (str): Path to file containing list of validation data files.
+        test_file (str): Path to file containing list of test data files.
+    
+    Returns:
+        train_list (list): List of paths to training data items.
+        val_list (list): List of paths to validation data items.
+        test_list (list): List of paths to test data items.
+        label_map (dict): Mapping of indices to label classes.
+    """
+    
+    ####################
+    # Labels
+    ####################
+
+    label_list = [label for label in sorted(os.listdir(root)) if os.path.isdir(os.path.join(root, label)) and label[0] != "_"]
+    label_map = {idx: label for idx, label in enumerate(label_list)}
+
+    ###################
+    # Split
+    ###################
+
+    all_files_set = set()
+    for label in label_list:
+        all_files_set.update(set(glob.glob(os.path.join(root, label, "*.wav"))))
+    
+    with open(val_file, "r") as f:
+        val_files_set = set(map(lambda a: os.path.join(root, a), f.read().rstrip("\n").split("\n")))
+    
+    with open(test_file, "r") as f:
+        test_files_set = set(map(lambda a: os.path.join(root, a), f.read().rstrip("\n").split("\n"))) 
+    
+    assert len(val_files_set.intersection(test_files_set)) == 0, "Sanity check: No files should be common between val and test."
+    
+    all_files_set -= val_files_set
+    all_files_set -= test_files_set
+    
+    train_list, val_list, test_list = list(all_files_set), list(val_files_set), list(test_files_set)
+    
+    print(f"Number of training samples: {len(train_list)}")
+    print(f"Number of validation samples: {len(val_list)}")
+    print(f"Number of test samples: {len(test_list)}")
+
+    return train_list, val_list, test_list, label_map
+
+#################################################################################################################################################################
+import json
+from argparse import ArgumentParser
+from utils.dataset import get_train_val_test_split
+import os
+
+
+def main(args):
+
+    train_list, val_list, test_list, label_map = get_train_val_test_split(args.data_root, args.val_list_file, args.test_list_file)
+
+    with open(os.path.join(args.out_dir, "training_list.txt"), "w+") as f:
+        f.write("\n".join(train_list))
+
+    with open(os.path.join(args.out_dir, "validation_list.txt"), "w+") as f:
+        f.write("\n".join(val_list))
+
+    with open(os.path.join(args.out_dir, "testing_list.txt"), "w+") as f:
+        f.write("\n".join(test_list))
+
+    with open(os.path.join(args.out_dir, "label_map.json"), "w+") as f:
+        json.dump(label_map, f)
+
+    print("Saved data lists and label map.")
+    
+
+if __name__ == "__main__":
+    parser = ArgumentParser()
+    parser.add_argument("-v", "--val_list_file", type=str, required=True, help="Path to validation_list.txt.")
+    parser.add_argument("-t", "--test_list_file", type=str, required=True, help="Path to test_list.txt.")
+    parser.add_argument("-d", "--data_root", type=str, required=True, help="Root directory of speech commands v2 dataset.")
+    parser.add_argument("-o", "--out_dir", type=str, required=True, help="Output directory for data lists and label map.")
+    args = parser.parse_args()
+
+    main(args)
