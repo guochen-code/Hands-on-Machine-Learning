@@ -1,0 +1,9 @@
+(1) speaker mixed up
+linux: auido input and output are async, causing multiple wake ups
+solution: enforce audio stream closed before entering into conversation flow
+
+(2) multithreading
+linux: np.dot(), locked the entire app, indefinite hanging
+solution: replace np.dot() 
+check:
+https://superfastpython.com/multithreaded-numpy-functions/
