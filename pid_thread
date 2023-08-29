@@ -50,3 +50,13 @@ Worker pid=32000, ppid=27039      ---------> can only see pid 32000 in "ps aux" 
 32002 Thread in action
 Worker pid=32000, ppid=27039   
 '''
+#############################################################################################################################################################
+ProcessPoolExecutor ---> ThreadPoolExecutor
+
+just tried with thread pool, it seems to me that os.getpid can only get the pid for the main thread
+for subthreads, we can use threading.get_native_id() to get their pid
+BUT these subthreads will be hidden from us. They will not show up in pure "top" or "ps -elf" or "ps aux" commands. 
+However, we can use the following command to track their live cpu and memory usage:
+top -H -p <pid>
+
+ 
