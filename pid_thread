@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
 '''
 32001 Thread in action            ---------> use ps -eLf to see pid 32001
-Worker pid=32000, ppid=27039      ---------> can only see pid 32000 in ps aux
+Worker pid=32000, ppid=27039      ---------> can only see pid 32000 in "ps aux" | can only see pid 32000 in "top"
 32002 Thread in action
 Worker pid=32000, ppid=27039   
 '''
