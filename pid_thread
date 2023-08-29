@@ -1,0 +1,52 @@
+# report pid and thread name for each worker process in the process pool
+from time import sleep
+from os import getpid
+from os import getppid
+from threading import current_thread
+from concurrent.futures import ProcessPoolExecutor
+
+
+# target task function
+def work(value):
+    sleep(30)
+    # report the worker process details
+    print(f'Worker pid={getpid()}, ppid={getppid()} thread={current_thread().name}')
+
+
+# entry point
+if __name__ == '__main__':
+    # report the main process details
+    print(f'Main pid={getpid()}, ppid={getppid()} thread={current_thread().name}')
+    # create a process pool
+    with ProcessPoolExecutor(2) as executor:
+        # submit some tasks
+        _ = executor.map(work, range(2))
+
+'''
+Main pid=32241, ppid=27039 thread=MainThread
+Worker pid=32243, ppid=32241 thread=MainThread
+Worker pid=32242, ppid=32241 thread=MainThread
+'''
+
+#############################################################################################################################################################
+import time
+import threading
+from os import getpid
+from os import getppid
+def funct():
+    time.sleep(30)
+    print(threading.get_native_id(), "Thread in action")
+    print(f'Worker pid={getpid()}, ppid={getppid()}')
+
+if __name__ == '__main__':
+    thread1= threading.Thread(target=funct)
+    thread2= threading.Thread(target=funct)
+    thread1.start()
+    thread2.start()        
+
+'''
+32001 Thread in action            ---------> use ps -eLf to see pid 32001
+Worker pid=32000, ppid=27039      ---------> can only see pid 32000 in ps aux
+32002 Thread in action
+Worker pid=32000, ppid=27039   
+'''
