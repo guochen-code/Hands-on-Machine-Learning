@@ -59,4 +59,6 @@ BUT these subthreads will be hidden from us. They will not show up in pure "top"
 However, we can use the following command to track their live cpu and memory usage:
 top -H -p <pid>
 
+can also use htop (sudo yum install htop)
+
  
