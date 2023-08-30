@@ -10,3 +10,4 @@ https://superfastpython.com/multithreaded-numpy-functions/
 
 (3) memory leak
 open recorder but not stop because of exception
+threading.py memory building up.... one of the thread is not closed.....if the total number of threads stays stable somehow.......
