@@ -7,6 +7,8 @@ linux: np.dot(), locked the entire app, indefinite hanging
 solution: replace np.dot() 
 check:
 https://superfastpython.com/multithreaded-numpy-functions/
+feat = np.dot(pspec,fb.T)
+feat = np.sum(pspec[:,np.newaxis,:] * fb[np.newaxis,:,:], axis=2)
 
 (3) memory leak
 open recorder but not stop because of exception
