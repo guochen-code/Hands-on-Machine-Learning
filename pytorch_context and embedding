@@ -81,4 +81,34 @@ use pytorch's cross_entrophy(), instead of using your own code above. why?
 # notice: +/- any number to logits will have the same probs
 to avoid extremely small numbers or big numbers, in pytorch, it first looks for the max value in the logits tensor and subtracted max value from logits
 
+******************************************************************************************************************************
+made respectable :)
+******************************************************************************************************************************
+X,Y # dataset
+g = torch.Generator().manual_seed(1234)
+C=torch.randn((27,2)),generator=g)
+W1 - g
+b1 - g
+W2 - g
+b2 - g 
+parameters = [C,W1,b1,W2,b2]
 
+sum(p.nelement() for p in parameters) # number of parameters
+
+for p in parameters:
+  p.requires_grad = True
+
+for _ in range(1000):
+  # forward pass
+  emb = C[X]
+  h = torch.tanh(emb.view(-1,6) @ W1 + b1)
+  logits = h @ W2 + b2
+  loss = F.cross_entrophy(logits,Y)
+  # backward pass
+  for p in parameters:
+    p.grad=None
+  loss.backward()
+  # update
+  for p in parameters:
+    p.data+=-0.1*p.grad
+print(loss.item())
