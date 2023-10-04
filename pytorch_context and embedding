@@ -112,3 +112,9 @@ for _ in range(1000):
   for p in parameters:
     p.data+=-0.1*p.grad
 print(loss.item())
+
+******************************************************************************************************************************
+it is slow, because one update on one sample. we can use mini-batch, decrease the loss much much faster
+******************************************************************************************************************************
+
+
