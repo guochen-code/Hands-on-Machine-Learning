@@ -36,3 +36,7 @@ hpreact = embcat @ W1 + b1
 bnmean = hpreact.mean(0,keepdim=True) # along axis=0
 bnstd = hpreact.std(0,keepdim=True)
 hpreact = bngain * (hpreact - bnmean) / bnstd + bnbias # all the + b1 will be offset by - bnmean here # we have own bnbias here
+
+*** summary ***
+try to avoid it as much as possible - large amount of bugs - because coupling examples in the forward pass
+alternateive: layer normalization or group normalization
