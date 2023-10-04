@@ -5,7 +5,7 @@ import torch
 # context
 C = torch.randn([27,2])
 
-# dataset
+# dataset --- !!! 2 samples !!!
 X = torch.tensor([[1,2,3],[4,5,6]])
 
 # embedding : torch.Size([2, 3, 2])
@@ -58,4 +58,27 @@ emb @ W + b # this is what we want, but not work, need to contatenate (2,3,2) ->
 emb.view(2,6) @ W + b # this will work; view is more efficient than concat and unbind functions in torch
 
 h = torch.tanh(emb.view(-1,6)@W+b) # -1: infer; output shape(2,100)
+
+# softmax layer
+W2 = torch.randn((100,27))
+b2 = torch.randn(27) # 27 classes
+logits = h@ W2 + b2
+logits.shape ---> (2,27)
+counts = logits.exp()
+prob = counts / counts.sum(1, keepdims=True)
+prob.shape ---> (2,27)
+Y.shape ---> (1,2) # Y is actual label
+******************************************************************************************************************************
+prob[torch.arange(2),Y] # probability for the correct token for sample 1 and sample 2
+******************************************************************************************************************************
+
+loss = - prob[torch.arange(2),Y].log().mean() # negative log likelihood
+
+# summary:
+use pytorch's cross_entrophy(), instead of using your own code above. why?
+(1) efficiency: less memory, less intermediate variables, less tensors created / efficient back propogation using simplified mathmatical expression (think using gradient descent vs one-step matrix calculation to calculate the min)
+(2) significantly "numerically well behaved":
+# notice: +/- any number to logits will have the same probs
+to avoid extremely small numbers or big numbers, in pytorch, it first looks for the max value in the logits tensor and subtracted max value from logits
+
 
