@@ -8,7 +8,7 @@ C = torch.randn([27,2])
 # dataset
 X = torch.tensor([[1,2,3],[4,5,6]])
 
-# embedding
+# embedding : torch.Size([2, 3, 2])
 C[X]
 tensor([[[ 0.6287, -0.4043],
          [ 0.0220,  0.3561],
@@ -46,3 +46,16 @@ tensor([[-3.3001e-01,  2.3160e+00],
         [-1.3407e+00, -1.1753e+00],
         [ 2.3867e+00,  9.6543e-01],
         [-1.5525e+00, -1.1028e+00]])
+
+******************************************
+
+C[X].shape ---> torch.Size([2, 3, 2])
+emb = C[X]
+so input to next neural layer = 3*2 = 6
+W = torch.rand((6,100))
+b = torch.rand(100) 
+emb @ W + b # this is what we want, but not work, need to contatenate (2,3,2) -> (2,6)
+emb.view(2,6) @ W + b # this will work; view is more efficient than concat and unbind functions in torch
+
+h = torch.tanh(emb.view(-1,6)@W+b) # -1: infer; output shape(2,100)
+
