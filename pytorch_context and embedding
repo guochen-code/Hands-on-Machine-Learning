@@ -76,7 +76,7 @@ loss = - prob[torch.arange(2),Y].log().mean() # negative log likelihood
 
 # summary:
 use pytorch's cross_entrophy(), instead of using your own code above. why?
-(1) efficiency: less memory, less intermediate variables, less tensors created / efficient back propogation using simplified mathmatical expression (think using gradient descent vs one-step matrix calculation to calculate the min)
+(1) efficiency: efficient forward: less memory, less intermediate variables, less tensors created / efficient backward propogation using simplified mathmatical expression (think using gradient descent vs one-step matrix calculation to calculate the min)
 (2) significantly "numerically well behaved":
 # notice: +/- any number to logits will have the same probs
 to avoid extremely small numbers or big numbers, in pytorch, it first looks for the max value in the logits tensor and subtracted max value from logits
