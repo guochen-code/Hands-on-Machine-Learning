@@ -16,7 +16,9 @@ bnmean = hpreact.mean(0,keepdim=True) # along axis=0
 bnstd = hpreact.std(0,keepdim=True)
 hpreact = bngain * (hpreact - bnmean) / bnstd + bnbias
 
-(3) two buffers - integrate batch norm in training step rather than calculated after training
+# how do you do for inference?
+
+(3) two buffers - integrate batch norm in training step rather than calculated after training -- this is for inference stage
 bnmean_running = torch.zeros((1,n_hidden))
 bnstd_running = torch.ones((1,n_hidden))
 
