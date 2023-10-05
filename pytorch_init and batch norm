@@ -1,6 +1,19 @@
 1. initialization -> a good initialization lead to more productive training time -> better model
 the importance of good initialization is down graded because of other techniques like batch normalization and better optimizer
 
+The output of a linear layer (fully connected layer): Y = W1X1 + W2X2 + .... +WnXn
+objective: Var(Y) = Var(Xi)
+Var(WiXi) = Var(Wi)Var(Xi)
+if Xi and Wi are all independent and identically distributed:
+Var(Y) = Var(W1X1 + W2X2 + .... +WnXn) = nVar(Wi)Var(Xi)
+nVar(Wi) = 1
+Var(Wi) = 1/n_in
+If go through the same steps for backpropagated signal: Var(Wi) = 1/n_out
+compromising: Var(Wi) = 2/(n_in+n_out) ---> std = Var**0.5 = (2/(n_in+n_out))**0.5
+where n_in is the number of input neurons/weights coming to the neuron and n_out is number of neurons/weights going out of the neuron
+Note: initialization occurs on a per-layer basis
+
+
 2. batch normalization - control statistics of of the activations in the neural network - two parameters - two buffers
 (1) side effect: mean and standard deviation is calculated in each batch, it is random
 to one specific sample in different batches, it will behave differently
