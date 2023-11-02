@@ -1,0 +1,7 @@
+You have created a set of services that implement the same API, but depending on the source (i.e. where the data is read from), it implements different business logic. 
+How would you do this considering the Liskov Substitution principle?
+
+Make the caller unaware of the reader they are using. In fact abstract the reader through an abstract Reader class
+from which the other classes are derived and only read through the abstracted memthods.
+
+
