@@ -5,3 +5,12 @@ Make the caller unaware of the reader they are using. In fact abstract the reade
 from which the other classes are derived and only read through the abstracted memthods.
 
 
+factory method
+- helper:
+  class ShapeType(Enum) # self-documenting
+  class ShapeContext # container store to hold factory parameters
+- main
+  class Shape(ABC) # abstract class
+  class ShapeFactory # create concret classes
+  class Circle(Shape) # concret class
+  class Rectangle(Shape) # concret class
