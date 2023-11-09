@@ -1,0 +1,43 @@
+'''
+In the second version, the width and height attributes are implemented as properties using the @property decorator. 
+  Properties in Python allow you to define methods that can be accessed like attributes. 
+  When you use properties, you can create dynamic behavior for attribute access.
+
+'''
+
+
+Both versions achieve the same goal of adapting a Square object into a Rectangle-like object. 
+However, the difference lies in how the width and height attributes are accessed in the SquareToRectangleAdapter class:
+
+Version 1:
+
+python
+Copy code
+class SquareToRectangleAdapter:
+    def __init__(self, square):
+        self.height = square.side
+        self.width = square.side
+In this version, width and height are directly set as attributes of the adapter object during its initialization. 
+    This means that the adapter has static width and height values based on the Square object passed during its creation. 
+    Changing the side attribute of the original Square object will not affect the width and height attributes of the adapter once it is created.
+
+Version 2:
+
+python
+Copy code
+class SquareToRectangleAdapter:
+    def __init__(self, square):
+        self.square = square
+
+    @property
+    def width(self):
+        return self.square.side
+
+    @property
+    def height(self):
+        return self.square.side
+In this version, width and height are implemented as properties that dynamically retrieve the side attribute of the Square object every time they are accessed. 
+          This means that the adapter always reflects the current state of the Square object. 
+          If the side attribute of the original Square object changes after the adapter is created, the width and height properties of the adapter will automatically reflect this change when accessed.
+
+Version 2 with properties provides a more dynamic and responsive adaptation, whereas Version 1 creates a static snapshot of the Square object's dimensions during the adapter's initialization.
