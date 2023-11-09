@@ -37,7 +37,9 @@ class SquareToRectangleAdapter:
     def height(self):
         return self.square.side
 In this version, width and height are implemented as properties that dynamically retrieve the side attribute of the Square object every time they are accessed. 
-          This means that the adapter always reflects the current state of the Square object. 
-          If the side attribute of the original Square object changes after the adapter is created, the width and height properties of the adapter will automatically reflect this change when accessed.
+This means that the adapter always reflects the current state of the Square object. 
+If the side attribute of the original Square object changes after the adapter is created, 
+the width and height properties of the adapter will automatically reflect this change when accessed.
 
-Version 2 with properties provides a more dynamic and responsive adaptation, whereas Version 1 creates a static snapshot of the Square object's dimensions during the adapter's initialization.
+Version 2 with properties provides a more dynamic and responsive adaptation, 
+whereas Version 1 creates a static snapshot of the Square object's dimensions during the adapter's initialization.
