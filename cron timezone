@@ -1,0 +1,2 @@
+CRON_TZ=America/Edmonton
+33 21 * * 5 root (export TZ=America/Edmonton && echo "hello world" > /hello_world.txt)
