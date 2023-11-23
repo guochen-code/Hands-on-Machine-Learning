@@ -1,0 +1,8 @@
+cd /root
+sudo du -h --max-depth=1
+
+sudo du -h --max-depth=1 / | sort -rh
+
+sudo rm -r ~/.cache/*
+
+sudo rm -r ~/.cache/*
