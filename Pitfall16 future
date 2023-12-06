@@ -166,3 +166,53 @@ Time spent in wait: 0.00099945068359375 seconds
 Exception occurred: This is a sample exception
 ***** function_with_exception: True
 ***** api_call: False
+
+***********************************************************************************************
+***********************************************************************************************
+problem with with block statement, it will wait for both threads to complete and then start another function.
+unless, the with block is in the main thread. if in a separate standalone function, the first complete will not work as expected
+
+import concurrent.futures
+import time
+from concurrent.futures import ThreadPoolExecutor
+
+
+def some_long_running_task1():
+    time.sleep(3)
+    return "Task 1 completed successfully!"
+
+def some_long_running_task2():
+    time.sleep(10)
+    return "Task 2 completed successfully!"
+
+def run_task_in_executor():
+    executor = ThreadPoolExecutor(max_workers=2)
+    future_result1 = executor.submit(some_long_running_task1)
+    future_result2 = executor.submit(some_long_running_task2)
+    print("Tasks submitted, not waiting for completion.", time.time())
+
+    completed_futures, _ = concurrent.futures.wait(
+        [future_result1, future_result2],
+        timeout=None,
+        return_when=concurrent.futures.FIRST_COMPLETED
+    )
+
+    # You can iterate over completed futures without blocking
+    for future in completed_futures:
+        # Handle the completed future, if needed
+        result = future.result()
+        print("Task completed in wait loop.", result, time.time())
+        try:
+            result = future_result2.result(timeout=6)
+        except Exception as err:
+            print(err)
+            print('serve task 1...........')
+
+# This part is reached after exiting the with block
+
+def my_func():
+    run_task_in_executor()
+    print('after run_task_in_executor:', time.time())
+
+# Call the function that sets up the ThreadPoolExecutor
+my_func()
