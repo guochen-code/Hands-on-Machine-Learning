@@ -74,3 +74,95 @@ if __name__ == "__main__":
 Waiting for result with a timeout of 1 second
 entering time out: 0.10640907287597656
 TimeoutError: Future result not available within 1 second
+
+***********************************************************************************************
+# if you handle exception in your function, futures.FIRST_EXCEPTION will not work. The real result is that it will wait for both threads to complete == ALL_COMPLETED
+import concurrent.futures
+import time
+
+def api_call():
+    time.sleep(2)  # Simulating a long-running API call
+    return "API call completed successfully"
+
+def function_with_exception():
+    try:
+        raise ValueError("This is a sample exception")
+    except:
+        return 'raised exception'
+
+def main():
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        future1 = executor.submit(function_with_exception)
+        future2 = executor.submit(api_call)
+        print('***** function_with_exception:', future1.done())
+        print('***** api_call:', future2.done())
+        tt1 = time.time()
+
+        completed_futures, _ = concurrent.futures.wait([future1, future2], return_when=concurrent.futures.FIRST_EXCEPTION)
+        tt2 = time.time()
+        print(f"Time spent in wait: {tt2 - tt1} seconds")
+
+        print('***** completed_futures:', completed_futures)
+
+        for completed_future in completed_futures:
+            try:
+                result = completed_future.result()
+                print("Result:", result)
+            except Exception as e:
+                print(f"Exception occurred: {e}")
+
+        print('***** function_with_exception:', future1.done())
+        print('***** api_call:', future2.done())
+
+if __name__ == "__main__":
+    main()
+
+***********************************************************************************************
+# if you not handle exception, then FIRST_EXCEPTION will work
+import concurrent.futures
+import time
+
+def api_call():
+    time.sleep(2)  # Simulating a long-running API call
+    return "API call completed successfully"
+
+def function_with_exception():
+    # try:
+    raise ValueError("This is a sample exception")
+    # except:
+    #     return 'raised exception'
+
+def main():
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        future1 = executor.submit(function_with_exception)
+        future2 = executor.submit(api_call)
+        print('***** function_with_exception:', future1.done())
+        print('***** api_call:', future2.done())
+        tt1 = time.time()
+
+        completed_futures, _ = concurrent.futures.wait([future1, future2], return_when=concurrent.futures.FIRST_EXCEPTION)
+        tt2 = time.time()
+        print(f"Time spent in wait: {tt2 - tt1} seconds")
+
+        print('***** completed_futures:', completed_futures)
+
+        for completed_future in completed_futures:
+            try:
+                result = completed_future.result()
+                print("Result:", result)
+            except Exception as e:
+                print(f"Exception occurred: {e}")
+
+        print('***** function_with_exception:', future1.done())
+        print('***** api_call:', future2.done())
+
+if __name__ == "__main__":
+    main()
+
+***** function_with_exception: True
+***** api_call: False
+Time spent in wait: 0.00099945068359375 seconds
+***** completed_futures: {<Future at 0x1c9a7195970 state=finished raised ValueError>}
+Exception occurred: This is a sample exception
+***** function_with_exception: True
+***** api_call: False
