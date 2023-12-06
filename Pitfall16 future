@@ -1,0 +1,76 @@
+conlcusion: watch out for the format !!!!!
+**********************
+import concurrent.futures
+import time
+
+def api_call():
+    time.sleep(2)  # Simulating a long-running API call
+    return "API call completed successfully"
+
+def main():
+    t0=time.time()
+    try:
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future = executor.submit(api_call)
+            result = future.result(timeout=5)
+            print("Got result:", result)
+    except concurrent.futures.TimeoutError:
+        print('entering time out:',time.time()-t0)
+        print("TimeoutError: Future result not available within 1 second")
+
+if __name__ == "__main__":
+    main()
+
+Got result: API call completed successfully
+
+**********************
+import concurrent.futures
+import time
+
+def api_call():
+    time.sleep(5)  # Simulating a long-running API call
+    return "API call completed successfully"
+
+def main():
+    t0=time.time()
+    try:
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future = executor.submit(api_call)
+            result = future.result(timeout=1)
+            print("Got result:", result)
+    except concurrent.futures.TimeoutError:
+        print('entering time out:',time.time()-t0)
+        print("TimeoutError: Future result not available within 1 second")
+
+if __name__ == "__main__":
+    main()
+
+entering time out: 5.002657890319824
+TimeoutError: Future result not available within 1 second
+
+**********************
+import concurrent.futures
+import time
+
+def api_call():
+    time.sleep(2)  # Simulating a long-running API call
+    return "API call completed successfully"
+
+def main():
+    t0=time.time()
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(api_call)
+        try:
+            print("Waiting for result with a timeout of 1 second")
+            result = future.result(timeout=1)
+            print("Got result:", result)
+        except concurrent.futures.TimeoutError:
+            print('entering time out:',time.time()-t0)
+            print("TimeoutError: Future result not available within 1 second")
+
+if __name__ == "__main__":
+    main()
+
+Waiting for result with a timeout of 1 second
+entering time out: 0.10640907287597656
+TimeoutError: Future result not available within 1 second
