@@ -1,0 +1,42 @@
+parallelism in python
+
+from multiprocessing import Pool
+def f(x):
+  return x*x
+
+with Pool(5) as p:
+print(p.map(f,[1,2,3]))
+--->
+[1,4,9]
+
+************* input of parallel map function
+- the parallel map function takes two inputs:
+(1) func: the function to be called in parallel
+(2) iterable: the data to run func on
+This means: func should have one single argument
+
+************* solution
+wrap it as a class
+__call__ function: single argument to iterate in parallel
+__init__ function: other arguments that stay the same
+
+for example:
+
+import multiprocessing
+
+def f(x,y):
+  return x*x + y
+
+class MyWrapper:
+  def __init__(self,y):
+    self.y= y
+
+def __call__(self,x):
+  return f(x,self.y)
+
+with multiprocessing.Pool(8) as p:
+  y = 100
+  wrapper = MyWrapper(y=y)
+  print(p.map(wrapper,[1,2,3]))
+
+  
