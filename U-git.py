@@ -23,11 +23,17 @@ git clone https://github.com/guochen-code/my_private_repo.git
 # clone syntax with PAT: # go to developer setting in github and generate token
 git clone https://<token@>github.com/guochen-code/my_private_repo.git
 
-**************************************************************************** lcaol -- git add and git commit
+**************************************************************************** local -- git add and git commit
 git add file_one.txt file_two.txt
 git commit -m "add file_one and file_two"
 git add . # all all files in the directory
 # press q button to quit the log view
+
+# unstage - staged but not committed
+git reset HEAD target_file.txt 
+# undo commit - move committed back to staging area
+git reset --soft HEAD^ --> Undo last commit and all the changes
+git reset --hard HEAD^^ --> Undo last two commits
 **************************************************************************** github -- git remote and git push
 git remote add origin https://github.com/guochen-code/my_second_repo.git # origin is default name by convention
 # not everyone is allowed to upload files to github, need a token. so above origin will not work. correct command is:
@@ -71,7 +77,10 @@ git merge <my_branch_name> # if with conflict, need to solve before auto merge c
 # check your current files vs your latest commiited files
 # when you make some changes but have not committed, you go away and come back from a coffee break, you don't remember what you did. 
 # use: (this is in the same branch)
-git diff
+git diff # difference between working directory and staged
+git diff --staged # difference between staged and local commit
+
+git status -v -V # give a complete information inlcuding all above, which are changes to be committed and changes not staged
 
 # how to use git diff for different branches?
 git diff <branch_1> <branch_2>
@@ -146,3 +155,60 @@ git stash
 (1) if you are collaborator, you are allowed to push to the github, so you can clone locally and  make changes and send the pull request
 (2) if you are not collaborator, you can fork the repo in your own github account, now I can push to forked repo because I own this copy.
     clone locally, make some changes, push to the forked repo. and from forked repo, send pull request to the origin repo
+
+
+
+********************************************************************************************* extra aws
+# ------ initialization                            
+mkdir my_git_folder
+cd my_git_folder
+git init
+git remote add origin https://git-codecommit.ap-south-1-1.amazonaws.com/v1/repos/my-website
+git clone https://git-codecommit.ap-south-1-1.amazonaws.com/v1/repos/my-website
+
+git remote -v # display remote repositories
+# create another remotes
+git remote add dev2 <addresss>                              
+# remove remotes
+git remote rm <name>
+git push -u <name> <branch> # for example: git push -u origin master                              
+
+# ------ amend / reset / revert
+# change most recent git commit message
+git commit --amend -m "an uopdated commit message"
+# change most recent git commit - for example, you need to commit A.py and B.py, but you only did commit A.py, how to fix:
+git add B.py
+git commit --amend -m "combine A.py and B.py in a single commit"
+
+git reset --hard HEAD^ --> undo last commit and all the changes
+git reset --hard HEAD^^ --> undo last two commits
+
+git revert <commit id> # the difference between this and above is that it generates new commit id and keep all the old commits history while
+# git reset will delete one of the old commits.
+
+# ------ cloning & branching
+git clone <repo link>
+git clone <repo link> <folder nam>
+git remote -v # points to clone URL
+
+git branch <branch name>
+git branch # display all branches
+git checkout <branch name> # switch to branch from master
+
+git push -u origin dev # new branch in remote repo
+
+# merge to master
+git checkout master
+git merge dev
+git push -u origin master
+
+# remove branch after merge
+git branch -d dev --> remove a branch
+git push -d origin dev
+git branch -D dev --> remove unmerged branch
+# if branch is unmerged, when run: git branch -d dev, it will error out
+
+# ------ git conflicts
+
+  
+  
