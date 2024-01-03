@@ -209,6 +209,16 @@ git branch -D dev --> remove unmerged branch
 # if branch is unmerged, when run: git branch -d dev, it will error out
 
 # ------ git conflicts
+# create and activate new branch
+git checkout -b <new_branch_name>
 
-  
+# error out due to conflicts in merging. But master is still in merging mode, waiting for you to solve conflicts. you can abort this:
+git merge --abort
+
+# to solve the conflicts, open the code file, make the changes - manually
+git add.
+git commit -m "Fixed conflicts"
+# you will notice (master|MERGING) becomes (master)
+
+
   
