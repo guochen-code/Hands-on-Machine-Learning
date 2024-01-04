@@ -220,5 +220,33 @@ git add.
 git commit -m "Fixed conflicts"
 # you will notice (master|MERGING) becomes (master)
 
+# git rebase
+master and new branch both on commit #0
+master branch: commit # 0, commit # 1, commit #2
+dev branch: commit #0, commit # 3,
+# before git rebase
+(master) git log --oneline
+commit #2
+commit #1
+commit #0
 
-  
+(dev) git log --oneline
+commit #3 (id:123)
+commit #0
+
+# after git rebase 
+(dev) git rebase master
+(dev) git long --oneline
+commit #3 (id:456, id will change)
+commit #2
+commit #1
+commit #0
+# in addition, the tree graph will be completely linear, only one line. Merge is two lines merge into one line. It's different.
+# In summary, rebase is an action in git that allows you to rewrite commits from one branch onto another branch. Essentially,
+# git is deleting commits from one branch and adding them onto another.
+# primary reason is to main linear project history.
+# warning: Never rebase commits once they've been pushed to a public repository. 
+# The rebase would replace the old commits with new ones and it would look like that part of your project history abruptly vanished!!!!
+
+
+
