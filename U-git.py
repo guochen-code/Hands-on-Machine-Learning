@@ -220,7 +220,7 @@ git add.
 git commit -m "Fixed conflicts"
 # you will notice (master|MERGING) becomes (master)
 
-# git rebase
+# ------ git rebase
 master and new branch both on commit #0
 master branch: commit # 0, commit # 1, commit #2
 dev branch: commit #0, commit # 3,
@@ -248,5 +248,16 @@ commit #0
 # warning: Never rebase commits once they've been pushed to a public repository. 
 # The rebase would replace the old commits with new ones and it would look like that part of your project history abruptly vanished!!!!
 
+# ------ git stash
+git stash save "stash messag"
+git stash list # list the stashed changes
+git stash apply <stashid> # apply but stash is still there on the stash list
+git stash pop # apply the top changes to my file and also remove from stash list
+git stash drop <stashid> # dropping the stash, for example: git stash drop 0
+git stash clear # dropping all stashes
+
+git checkout -- . # roll back to last commit after some changes that you don't want to reserve
+# another application: you made changes on master but then realize it should be done on dev branch
+# you can stash in one branch and apply those stashes in another branch
 
 
