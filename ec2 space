@@ -8,6 +8,8 @@ sudo rm -r ~/.cache/*
 
 sudo rm -r ~/.cache/*
 
+cd /var/.log/ # all historical log files are here
+
 **************************************************************************************************************** resize volume
 go to ec2 tab - go to specific volume tab - modify volume
 
