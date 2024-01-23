@@ -1,0 +1,32 @@
+def check_endpoint_availability(self, host=self.host_endpoint, port=80): # 0.015
+  try:
+      s = socket.create_connection((host, port), timeout=0.5)
+      s.close()
+      print(f"The endpoint {host}:{port} is available.")
+      return True
+  except socket.error as e:
+      print(f"The endpoint {host}:{port} is not available. Error: {e}")
+      return False
+
+what is the problem:
+When you set host=self.host_endpoint as a default value for the host parameter, it is evaluated once at the time of function definition, not each time the function is called. 
+If self.host_endpoint changes after the function is defined, it won't reflect the updated value.
+
+To capture the dynamic value of self.host_endpoint when the function is called, you should set the default value to None or some other sentinel value and then check and set the actual value inside the function if needed. 
+Here's an updated version of your function:
+
+def check_endpoint_availability(self, host=None, port=80):
+    # Check if host is not provided, use self.host_endpoint
+    if host is None:
+        host = self.host_endpoint
+
+    try:
+        s = socket.create_connection((host, port), timeout=0.5)
+        s.close()
+        print(f"The endpoint {host}:{port} is available.")
+        return True
+    except socket.error as e:
+        print(f"The endpoint {host}:{port} is not available. Error: {e}")
+        return False
+
+
