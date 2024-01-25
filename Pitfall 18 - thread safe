@@ -1,0 +1,14 @@
+when you use a seperate thread to save a file,
+in the thread you define the file name as a variable "FileName"
+in the main program, you use variable "FileName" to check if file exists and if yes, you continue to use the file name
+if you are in a loop
+
+it is possible that: 
+round 1 you save file-1 and use file-1, everythin is ok
+round 2 you save file-2 but you still use file-1, what happen?
+at the time when you use variable "FileName" check if file exists, you still check with file-1 (because file-2 is not saved yet and more importantly the variable "FileName" is still pointing to file-1), 
+and it does exist and then you proceed with using file-1 again!
+
+summary:
+in your main program, you use a variable defined and being changed in a thread
+if update on the variable is delayed somehow in the thread, meanwhile in your main program which is still running, when you access to the variable, it is not yet updated.
