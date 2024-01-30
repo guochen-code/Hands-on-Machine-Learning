@@ -1,0 +1,14 @@
+one ELB and two Network Interfaces
+
+In summary, having multiple communication channels through different network interfaces improves the robustness of the communication between the ELB and the instances, 
+ensuring that the health checks are more accurate and the system remains reliable and available even in the face of potential failures in one channel or part of the infrastructure.
+
+The two network interfaces on the ELB are essentially two communication channels between the ELB and the instances. This redundancy ensures that if one channel fails 
+(e.g., due to an issue with a network interface or availability zone), the other can still be used for communication.
+
+If one communication channel is down, but the other is still operational, the ELB can continue to communicate with the instance through the working channel.
+
+If there's only one channel and it fails, it might incorrectly lead to the instance being marked as unhealthy, even if the instance itself is fine. Having multiple channels helps mitigate this risk.
+
+
+
