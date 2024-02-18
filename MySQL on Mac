@@ -1,0 +1,35 @@
+# start mysql server process (need mac password)
+cd /usr/local
+cd mysql-8.3.0-macos14-arm64
+cd support-files
+./mysql.server stop
+./mysql.server start
+
+# log into mysql (need mysql password)
+cd ..
+cd bin
+./mysql -u root -p
+exit
+
+
+# not use root user, create a new user
+# log in as root first
+show databases;
+create database <database_name>;
+use <database_name>; # swith to the designated database
+show tables;
+# create a new user
+create user '<user_name>'@'<ip_address or domain name or localhost>' identified by '<password>';
+grant all privileges on <database_name>.* to '<user_name>'@'<ip_address or domain name or localhost>'
+exit
+# log in as new user
+./mysql -u <user_name> -p
+
+ 
+
+
+# kill all running mysql processes
+sudo killall mysqld
+
+# change ownership of the folder to mysql user
+sudo chown -R mysql mysql-8.3.0-macos14-arm64
