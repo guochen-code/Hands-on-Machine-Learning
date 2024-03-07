@@ -1,0 +1,76 @@
+import pandas as pd
+
+# Existing DataFrame
+data = {
+    'accesstoken': ['token1', 'token2', 'token3', 'token4', 'token5'],
+    'accessexpiry': [
+        '2023-07-31 18:57:37.350', 
+        '2024-06-16 21:21:35.301', 
+        '2024-06-19 07:39:45.696', 
+        '2024-04-27 16:43:09.503', 
+        '2022-08-05 19:04:13.182'
+    ],
+    'platform': ['OWSWeb', 'DrillSmartDesktop', 'DrillSmartDesktop', 'MPDLiveWeb', 'MPDLiveWeb']
+}
+
+df = pd.DataFrame(data)
+
+# Convert accessexpiry column to datetime
+df['accessexpiry'] = pd.to_datetime(df['accessexpiry'])
+
+# New record to add
+new_record = {'accesstoken': 'token6', 'accessexpiry': pd.to_datetime('2025-01-01 00:00:00'), 'platform': 'NewPlatform'}
+
+# Append the new record to the DataFrame
+df = df.append(new_record, ignore_index=True)
+
+df
+
+	accesstoken	accessexpiry	platform
+0	token1	2023-07-31 18:57:37.350	OWSWeb
+1	token2	2024-06-16 21:21:35.301	DrillSmartDesktop
+2	token3	2024-06-19 07:39:45.696	DrillSmartDesktop
+3	token4	2024-04-27 16:43:09.503	MPDLiveWeb
+4	token5	2022-08-05 19:04:13.182	MPDLiveWeb
+5	token6	2025-01-01 00:00:00.000	NewPlatform
+
+
+
+record_df = df[df['accesstoken'] == 'token5']
+record_df
+	accesstoken	accessexpiry	platform
+4	token5	2022-08-05 19:04:13.182	MPDLiveWeb
+
+
+if record_df['accessexpiry'] < datetime.now():
+    print('ok')
+
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+~\AppData\Local\Temp\ipykernel_3020\3707021121.py in <module>
+----> 1 if record_df['accessexpiry'] < datetime.now():
+      2     print('ok')
+
+~\Anaconda3\lib\site-packages\pandas\core\generic.py in __nonzero__(self)
+   1525     @final
+   1526     def __nonzero__(self):
+-> 1527         raise ValueError(
+   1528             f"The truth value of a {type(self).__name__} is ambiguous. "
+   1529             "Use a.empty, a.bool(), a.item(), a.any() or a.all()."
+
+ValueError: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+
+------ why?
+record_df['accessexpiry']
+4   2022-08-05 19:04:13.182
+Name: accessexpiry, dtype: datetime64[ns]
+record_df['accessexpiry'] < datetime.now()
+4    True
+Name: accessexpiry, dtype: bool
+
+---- solution!
+if (record_df['accessexpiry'] < datetime.now()).any():
+    print('ok')
+
+if record_df['accessexpiry'].iloc[0] < datetime.now():
+    print('ok')
