@@ -1,0 +1,19 @@
+# groupby # agg
+import pandas as pd
+import numpy as np
+
+np.random.seed(42)
+data = {
+    'PRODUCT_CATEGORY_CODE': np.random.choice(['Priority Courier', 'Xpresspost', 'Standard'],15),
+    'SUM_VOLUME': np.random.uniform(100,1000,15).round()
+}
+
+df=pd.DataFrame(data)
+
+result = df.groupby('PRODUCT_CATEGORY_CODE').agg(
+    count_product=('SUM_VOLUME','sum'),
+    count_propritycourier=('SUM_VOLUME', lambda x : x[df['PRODUCT_CATEGORY_CODE'] == 'Priority Courier'].sum()),
+    count_Xpresspost=('SUM_VOLUME', lambda x : x[df['PRODUCT_CATEGORY_CODE'] == 'Xpresspost'].sum())
+).reset_index()
+
+result
