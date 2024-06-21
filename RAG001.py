@@ -79,6 +79,11 @@ if index_name not in pinecone.list_indexes():
 # Instantiate the index
 index = pinecone.Index(index_name)
 
+################# inference
+query = "who was Benito Mussolini?"
+query_list = [query]
+xq = embed.embed_documents(query_list)
+xc = index.query(vector=xq, top_k=3, include_metadata=True)
 
 ################# utility
 # Define a function to preprocess text
