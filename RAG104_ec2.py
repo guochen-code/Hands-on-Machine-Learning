@@ -9,5 +9,7 @@ This means any normal output, such as print statements or information messages g
 Therefore, any error messages, exceptions, or warnings that would normally be printed to the terminal will also be appended to streamlit.log.
 
 pgrep -f "chatbot.py"
+ps aux | grep streamlit
 
-kill -9 PID
+kill PID (logged)
+kill -9 PID (not logged)
