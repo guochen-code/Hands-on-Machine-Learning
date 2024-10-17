@@ -1,0 +1,109 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+from langchain_community.document_loaders import DirectoryLoader, TextLoader
+
+COURSES_PATH = "llm-vectors-unstructured/data/asciidoc"
+
+# Load lesson documents
+loader = DirectoryLoader(COURSES_PATH, glob="**/lesson.adoc", loader_cls=TextLoader)
+docs = loader.load()
+
+# Create a text splitter
+# text_splitter =
+
+# Split documents into chunks
+# chunks =
+
+# Create a Neo4j vector store
+# neo4j_db =
+
+
+------------------------------------------------------------------------------------------------------------- create embeddings with Neo4jVector
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+from langchain_community.document_loaders import DirectoryLoader, TextLoader
+from langchain.text_splitter import CharacterTextSplitter
+from langchain_community.vectorstores.neo4j_vector import Neo4jVector
+from langchain_openai import OpenAIEmbeddings
+
+COURSES_PATH = "llm-vectors-unstructured/data/asciidoc"
+
+loader = DirectoryLoader(COURSES_PATH, glob="**/lesson.adoc", loader_cls=TextLoader)
+docs = loader.load()
+
+text_splitter = CharacterTextSplitter(
+    separator="\n\n",
+    chunk_size=1500,
+    chunk_overlap=200,
+)
+
+chunks = text_splitter.split_documents(docs)
+
+print(chunks)
+
+neo4j_db = Neo4jVector.from_documents(
+    chunks,
+    OpenAIEmbeddings(openai_api_key=os.getenv('OPENAI_API_KEY')),
+    url=os.getenv('NEO4J_URI'),
+    username=os.getenv('NEO4J_USERNAME'),
+    password=os.getenv('NEO4J_PASSWORD'),
+    database="neo4j",  
+    index_name="chunkVector",
+    node_label="Chunk", 
+    text_node_property="text", 
+    embedding_node_property="embedding",  
+)
+
+
+
+MATCH (c:Chunk) RETURN c LIMIT 25
+
+
+WITH genai.vector.encode(
+    "What does Hallucination mean?",
+    "OpenAI",
+    { token: "sk-..." }) AS userEmbedding
+CALL db.index.vector.queryNodes('chunkVector', 6, userEmbedding)
+YIELD node, score
+RETURN node.text, score
+
+
+------------------------------------------------------------------------------------------------------------------------- create embeddings with llm
+
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+from openai import OpenAI
+
+from langchain_community.graphs import Neo4jGraph
+
+llm = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+
+response = llm.embeddings.create(
+        input="What does Hallucination mean?",
+        model="text-embedding-ada-002"
+    )
+
+embedding = response.data[0].embedding
+
+graph = Neo4jGraph(
+    url=os.getenv('NEO4J_URI'),
+    username=os.getenv('NEO4J_USERNAME'),
+    password=os.getenv('NEO4J_PASSWORD')
+)
+
+result = graph.query("""
+CALL db.index.vector.queryNodes('chunkVector', 6, $embedding)
+YIELD node, score
+RETURN node.text, score
+""", {"embedding": embedding})
+
+for row in result:
+    print(row['node.text'], row['score'])
+
+
