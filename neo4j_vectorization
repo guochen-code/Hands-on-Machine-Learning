@@ -171,5 +171,92 @@ plot_retriever = RetrievalQA.from_llm(
 ```
 
 
+-------------------------------------------------------------------------- Load into Neo4j
+
+LOAD CSV WITH HEADERS
+FROM 'https://data.neo4j.com/llm-vectors-unstructured/Quora-QuAD-1000-embeddings.csv' AS row
+
+MERGE (q:Question{text:row.question})
+WITH row,q
+CALL db.create.setNodeVectorProperty(q, 'embedding', apoc.convert.fromJsonList(row.question_embedding))
+
+MERGE (a:Answer{text:row.answer})
+WITH row,a,q
+CALL db.create.setNodeVectorProperty(a, 'embedding', apoc.convert.fromJsonList(row.answer_embedding))
+
+MERGE(q)-[:ANSWERED_BY]->(a)
+
+
+
+
+
+MATCH (q:Question)-[r:ANSWERED_BY]->(a:Answer)
+RETURN q,r,a
+LIMIT 100
+
+
+------------------------------------------------------------------------------- Create the Question Index
+To query embeddings, you need to create a vector index. A vector index significantly increases the speed of similarity searches by pre-computing the similarity between vectors and storing them in the index.
+
+CREATE VECTOR INDEX questions IF NOT EXISTS
+FOR (q:Question)
+ON q.embedding
+OPTIONS {indexConfig: {
+ `vector.dimensions`: 1536,
+ `vector.similarity_function`: 'cosine'
+}}
+
+
+CREATE VECTOR INDEX answers IF NOT EXISTS
+FOR (a:Answer)
+ON a.embeddings
+OPTIONS {indexConfig: {
+ `vector.dimensions`: 1536,
+ `vector.similarity_function`: 'cosine'
+}}
+
+
+
+------------------------------------------------------------------------------- Query a Vector Index
+
+MATCH (q:Question {text: "What are the most touristic countries in the world?"})
+CALL db.index.vector.queryNodes('questions', 6, q.embedding)
+YIELD node, score
+RETURN node.text, score
+
+MATCH (q:Question {text: "What are the most touristic countries in the world?"})
+CALL db.index.vector.queryNodes('questions', 6, q.embedding)
+YIELD node, score
+MATCH (node)-[:ANSWERED_BY]->(a)
+RETURN a.text, score
+
+
+You can generate a new embedding in Cypher using the genai.vector.encode function:
+genai.vector.encode(
+    resource :: STRING,
+    provider :: STRING,
+    configuration :: MAP = {}
+) :: LIST<FLOAT>
+
+
+For example, you can use the OpenAI provider to generate an embedding passing the API key as token in the configuration map:
+WITH genai.vector.encode("Test", "OpenAI", { token: "sk-..." }) AS embedding
+RETURN embedding
+
+
+You can incorporate the embedding into your query to find similar questions:
+WITH genai.vector.encode(
+    "What are good open source projects",
+    "OpenAI",
+    { token: "sk-..." }) AS userEmbedding
+CALL db.index.vector.queryNodes('questions', 6, userEmbedding)
+YIELD node, score
+RETURN node.text, score
+
+
+
+
+
+
 
 
