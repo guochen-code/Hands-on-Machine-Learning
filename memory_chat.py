@@ -128,3 +128,17 @@ while True:
     )
     
     print(response)
+
+'''
+You can return the graph of the conversation history using the following Cypher query:
+MATCH (s:Session)-[:LAST_MESSAGE]->(last:Message)<-[:NEXT*]-(msg:Message)
+RETURN s, last, msg
+
+You can return the conversation history for a single session by filtering on the Session.id property.
+MATCH (s:Session)-[:LAST_MESSAGE]->(last:Message)
+WHERE s.id = 'your session id'
+MATCH p = (last)<-[:NEXT*]-(msg:Message)
+UNWIND nodes(p) as msgs
+RETURN DISTINCT msgs.type, msgs.content
+'''
+
