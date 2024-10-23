@@ -117,5 +117,33 @@ finally:
     driver.quit()
 
 
+##########################################################################################
+'''
+Snippet 1
+python
+Copy code
+main_2_games_button = wait.until(EC.element_to_be_clickable(
+    (By.XPATH, "//button[div[contains(@class, 'small-text') and contains(text(), 'Main 2 Games')]]")
+))
+Functionality: This snippet looks for a <button> that contains a <div> with the class small-text and that includes the text "Main 2 Games" anywhere in the text.
+Pros: Using contains(text(), 'Main 2 Games') allows for partial matches. If there are other words or text in the <div>, it will still match as long as "Main 2 Games" is part of the text.
+Cons: It might match more than you intend if there are multiple elements containing that phrase.
+Snippet 2
+python
+Copy code
+main_2_games_button = wait.until(EC.element_to_be_clickable(
+    (By.XPATH, "//button[div[contains(@class, 'small-text') and text()='Main 2 Games']]")
+))
+main_2_games_button.click()
+Functionality: This snippet also looks for a <button> containing a <div> with the class small-text, but it requires an exact match for the text "Main 2 Games."
+Pros: This is more specific and will only match if the <div> has exactly "Main 2 Games" as its text, with no additional text.
+Cons: If there is any extra whitespace or additional text, it will not match.
+Summary
+Use Snippet 1 when you want to allow for partial matches or when the text might include additional content. It's more flexible but can lead to unintended matches.
+Use Snippet 2 when you want to ensure an exact match for the text. This is safer if you're sure the text will always be exactly as specified.
+
+'''
+
+
 
 
