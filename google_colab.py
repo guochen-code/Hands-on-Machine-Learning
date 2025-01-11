@@ -6,6 +6,13 @@
 !kill -9 $(lsof -t -i:6008)
 
 
+127f61e2e275
+1-A: can see blue dots but cannot see colors because of no labels
+1-B: 
+2-A: revised, run, cannot see
+3-A: not run
+4-A: cannot see
+
 ###################################################### code correction
 from tensorboard.plugins import projector
 
