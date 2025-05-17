@@ -1,4 +1,7 @@
 certificate issue:
-$env:NODE_TLS_REJECT_UNAUTHORIZED = "0"
+$env:NODE_TLS_REJECT_UNAUTHORIZED = "0" 
 
- 
+
+
+pycharm - python:
+pip install python-certifi-win32
