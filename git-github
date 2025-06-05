@@ -16,3 +16,6 @@ git remote set-url origin <new-url>
 
 # compare two commits in github
 https://github.com/<user>/<repo>/compare/58d522a67ef66a616622ef8c0ed71267154df1f9...931e2c14b2858c47245f9c0eacc42950477fa9c0
+
+# git clone a branch
+git clone --branch <branch-name> <repository-url>
