@@ -19,3 +19,20 @@ https://github.com/<user>/<repo>/compare/58d522a67ef66a616622ef8c0ed71267154df1f
 
 # git clone a branch
 git clone --branch <branch-name> <repository-url>
+
+
+### bad commit to local and github, revert to the previous step
+git log --oneline
+git reset --hard <commit has>
+git push --force
+
+
+# new start
+git init
+git remote add origin <https://github.com/your-username/repo-name.git>
+git add .
+git commit -m "<comments>"
+git branch -M main # rename default branch to main
+git push -u origin main
+
+
