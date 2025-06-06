@@ -36,3 +36,55 @@ git branch -M main # rename default branch to main
 git push -u origin main
 
 
+
+
+# how to track diff for two unrelated folders (sub-0 is already git initialized and pushed in github)
+import os
+import shutil
+
+sub0 = "sub-0"
+sub1 = "sub-1"
+
+# Get relative paths to all files in sub-0 and sub-1
+def get_all_files(root):
+    files = []
+    for dirpath, _, filenames in os.walk(root):
+        for f in filenames:
+            full_path = os.path.join(dirpath, f)
+            rel_path = os.path.relpath(full_path, root)
+            files.append(rel_path)
+    return set(files)
+
+files_sub0 = get_all_files(sub0)
+files_sub1 = get_all_files(sub1)
+
+# Delete files in sub-0 that are not in sub-1
+for file in files_sub0 - files_sub1:
+    path_to_delete = os.path.join(sub0, file)
+    print(f"Deleting: {path_to_delete}")
+    os.remove(path_to_delete)
+
+# Add new files from sub-1 to sub-0
+for file in files_sub1 - files_sub0:
+    src = os.path.join(sub1, file)
+    dst = os.path.join(sub0, file)
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    print(f"Creating: {dst}")
+    shutil.copy2(src, dst)
+
+# Overwrite content of matching files
+for file in files_sub1 & files_sub0:
+    path1 = os.path.join(sub1, file)
+    path0 = os.path.join(sub0, file)
+    with open(path1, 'r', encoding='utf-8') as f1:
+        content = f1.read()
+    with open(path0, 'w', encoding='utf-8') as f0:
+        print(f"Overwriting: {path0}")
+        f0.write(content)
+
+
+
+git push --set-upstream origin main
+
+
+
