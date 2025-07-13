@@ -1,0 +1,496 @@
+*********************************************************************************************************************** track text selection and copy action
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Selection & Copy Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .content {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .log {
+            background: #000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .highlight {
+            background-color: yellow;
+            padding: 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Text Selection & Copy Detection Demo</h1>
+    
+    <div class="content">
+        <h2>Sample Text - Try selecting and copying!</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        
+        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        
+        <p>Select any text above and press Ctrl+C (or Cmd+C on Mac) to see the detection in action!</p>
+        
+        <p><strong>Instructions:</strong></p>
+        <ul>
+            <li>Select some text with your mouse</li>
+            <li>Press Ctrl+C to copy</li>
+            <li>Watch the log below for detailed tracking</li>
+        </ul>
+    </div>
+
+    <h3>Detection Log:</h3>
+    <div class="log" id="log"></div>
+
+    <script>
+        const log = document.getElementById('log');
+        let selectionCount = 0;
+        let copyCount = 0;
+
+        function addToLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleString();
+            const logEntry = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
+            log.innerHTML += logEntry + '<br>';
+            log.scrollTop = log.scrollHeight;
+            console.log(logEntry);
+        }
+
+        // Detect text selection
+        document.addEventListener('selectionchange', function() {
+            const selection = window.getSelection();
+            const selectedText = selection.toString().trim();
+            
+            if (selectedText.length > 0) {
+                selectionCount++;
+                addToLog(`Text selected (#${selectionCount}): "${selectedText}"`, 'selection');
+                addToLog(`Selection length: ${selectedText.length} characters`, 'info');
+                
+                // Get the container element
+                if (selection.anchorNode) {
+                    const container = selection.anchorNode.parentElement?.tagName || 'Unknown';
+                    addToLog(`Selected from: <${container}> element`, 'info');
+                }
+            }
+        });
+
+        // Detect copy action
+        document.addEventListener('copy', function(e) {
+            copyCount++;
+            const selection = window.getSelection();
+            const copiedText = selection.toString().trim();
+            
+            addToLog(`COPY ACTION (#${copyCount}) - User pressed Ctrl+C!`, 'copy');
+            addToLog(`Copied text: "${copiedText}"`, 'copy');
+            addToLog(`Copy action completed successfully`, 'copy');
+            addToLog('-------------------', 'info');
+        });
+
+        // Detect keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === 'c') {
+                    addToLog(`Detected Ctrl+C keypress`, 'keyboard');
+                } else if (e.key === 'a') {
+                    addToLog(`Detected Ctrl+A (select all)`, 'keyboard');
+                }
+            }
+        });
+
+        // Initial log message
+        addToLog('Text selection and copy detector started. Try selecting and copying text above!', 'system');
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+*********************************************************************************************************************** track paste action with visible input
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visible Input - Paste Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .input-container {
+            background: #f0f8ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid #4CAF50;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .log {
+            background: #000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .clear-btn {
+            background: #ff4444;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Visible Input - Paste Detection Demo</h1>
+    
+    <div class="input-container">
+        <h3>Try pasting text into these visible inputs:</h3>
+        
+        <label for="textInput">Text Input:</label>
+        <input type="text" id="textInput" placeholder="Paste something here with Ctrl+V...">
+        
+        <label for="textArea">Textarea:</label>
+        <textarea id="textArea" rows="4" placeholder="Or paste multiple lines here..."></textarea>
+        
+        <label for="passwordInput">Password Input (text still gets logged!):</label>
+        <input type="password" id="passwordInput" placeholder="Even password fields can be monitored...">
+    </div>
+
+    <button class="clear-btn" onclick="clearLog()">Clear Log</button>
+    
+    <h3>Paste Detection Log:</h3>
+    <div class="log" id="log"></div>
+
+    <script>
+        const log = document.getElementById('log');
+        let pasteCount = 0;
+
+        function addToLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleString();
+            const logEntry = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
+            log.innerHTML += logEntry + '<br>';
+            log.scrollTop = log.scrollHeight;
+            console.log(logEntry);
+        }
+
+        function clearLog() {
+            log.innerHTML = '';
+            pasteCount = 0;
+            addToLog('Log cleared - ready for new paste events', 'system');
+        }
+
+        // Add paste event listeners to all input elements
+        const inputs = document.querySelectorAll('input, textarea');
+        
+        inputs.forEach((input, index) => {
+            input.addEventListener('paste', function(e) {
+                pasteCount++;
+                const elementType = e.target.tagName.toLowerCase();
+                const elementId = e.target.id || `element-${index}`;
+                
+                addToLog(`PASTE EVENT #${pasteCount} detected!`, 'paste');
+                addToLog(`Target: <${elementType}> with id="${elementId}"`, 'info');
+                
+                // Get the pasted content
+                const pastedText = e.clipboardData.getData('text');
+                addToLog(`Pasted content: "${pastedText}"`, 'content');
+                addToLog(`Content length: ${pastedText.length} characters`, 'info');
+                
+                // Check for special content types
+                if (pastedText.includes('\n')) {
+                    addToLog('Multi-line content detected', 'info');
+                }
+                if (pastedText.length > 100) {
+                    addToLog('Large content pasted (>100 chars)', 'warning');
+                }
+                
+                addToLog('-------------------', 'divider');
+            });
+
+            // Also detect keyboard shortcuts
+            input.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
+                    addToLog(`Ctrl+V keypress detected in ${e.target.id || 'input'}`, 'keyboard');
+                }
+            });
+
+            // Track focus events
+            input.addEventListener('focus', function(e) {
+                addToLog(`Input focused: ${e.target.id || 'unnamed input'}`, 'focus');
+            });
+        });
+
+        // Initial message
+        addToLog('Visible input paste detector loaded. Try copying text from somewhere and pasting it above!', 'system');
+    </script>
+</body>
+</html>
+
+
+*********************************************************************************************************************** track paste action with invisible input
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invisible Input - Stealth Paste Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .content {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid #ffc107;
+        }
+        .warning {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border: 1px solid #f5c6cb;
+        }
+        .log {
+            background: #000;
+            color: #ff6600;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .clear-btn {
+            background: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        .focus-btn {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        /* Hidden input styles - various sneaky approaches */
+        .hidden-input-1 {
+            opacity: 0;
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+        }
+        .hidden-input-2 {
+            position: fixed;
+            top: -100px;
+            left: -100px;
+            width: 1px;
+            height: 1px;
+            border: none;
+            background: transparent;
+        }
+        .hidden-div {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <h1>Invisible Input - Stealth Paste Detection</h1>
+    
+    <div class="warning">
+        <strong>⚠️ Privacy Demonstration:</strong> This page has invisible input fields that can secretly capture your paste actions. This is for educational purposes to show how websites might track clipboard usage without your knowledge.
+    </div>
+
+    <div class="content">
+        <h3>What's happening behind the scenes:</h3>
+        <p>This page contains several <strong>invisible input elements</strong> that you can't see. When you press Ctrl+V anywhere on this page, these hidden inputs might capture your clipboard content.</p>
+        
+        <p><strong>Test it:</strong></p>
+        <ol>
+            <li>Copy some text from anywhere (another tab, notepad, etc.)</li>
+            <li>Come back to this page</li>
+            <li>Press Ctrl+V anywhere on this page</li>
+            <li>Watch the log below to see what gets captured</li>
+        </ol>
+        
+        <button class="focus-btn" onclick="focusHiddenInput1()">Focus Hidden Input #1</button>
+        <button class="focus-btn" onclick="focusHiddenInput2()">Focus Hidden Input #2</button>
+        <button class="focus-btn" onclick="focusHiddenDiv()">Focus Hidden Div</button>
+        <button class="clear-btn" onclick="clearLog()">Clear Log</button>
+    </div>
+
+    <!-- INVISIBLE/HIDDEN INPUTS - User can't see these -->
+    <input type="text" class="hidden-input-1" id="hiddenInput1" placeholder="Hidden input 1">
+    <input type="text" class="hidden-input-2" id="hiddenInput2" placeholder="Hidden input 2">
+    <div contenteditable="true" class="hidden-div" id="hiddenDiv">Hidden editable div</div>
+    
+    <h3>Stealth Paste Detection Log:</h3>
+    <div class="log" id="log"></div>
+
+    <script>
+        const log = document.getElementById('log');
+        let pasteCount = 0;
+        let focusCount = 0;
+
+        function addToLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleString();
+            const logEntry = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
+            log.innerHTML += logEntry + '<br>';
+            log.scrollTop = log.scrollHeight;
+            console.log(logEntry);
+        }
+
+        function clearLog() {
+            log.innerHTML = '';
+            pasteCount = 0;
+            focusCount = 0;
+            addToLog('Log cleared - stealth monitoring active', 'system');
+        }
+
+        function focusHiddenInput1() {
+            document.getElementById('hiddenInput1').focus();
+            addToLog('Hidden Input #1 focused - try Ctrl+V now', 'focus');
+        }
+
+        function focusHiddenInput2() {
+            document.getElementById('hiddenInput2').focus();
+            addToLog('Hidden Input #2 focused - try Ctrl+V now', 'focus');
+        }
+
+        function focusHiddenDiv() {
+            document.getElementById('hiddenDiv').focus();
+            addToLog('Hidden Div focused - try Ctrl+V now', 'focus');
+        }
+
+        // Monitor ALL paste events on the page
+        document.addEventListener('paste', function(e) {
+            pasteCount++;
+            const targetElement = e.target;
+            const elementInfo = targetElement.id || targetElement.className || targetElement.tagName;
+            
+            addToLog(`🕵️ STEALTH PASTE CAPTURED #${pasteCount}!`, 'stealth');
+            addToLog(`Target element: ${elementInfo}`, 'target');
+            addToLog(`Element visible: ${isElementVisible(targetElement)}`, 'visibility');
+            
+            // Capture the pasted content
+            const pastedContent = e.clipboardData.getData('text');
+            addToLog(`Intercepted content: "${pastedContent}"`, 'stolen');
+            addToLog(`Content length: ${pastedContent.length} characters`, 'analysis');
+            
+            // Analyze the content
+            if (pastedContent.includes('@')) {
+                addToLog('⚠️ Email address detected in paste!', 'sensitive');
+            }
+            if (pastedContent.match(/\d{3,}/)) {
+                addToLog('⚠️ Numbers detected (could be phone/ID/etc)', 'sensitive');
+            }
+            if (pastedContent.includes('password') || pastedContent.includes('pass')) {
+                addToLog('🚨 POTENTIAL PASSWORD DETECTED!', 'critical');
+            }
+            
+            addToLog('===========================', 'divider');
+        });
+
+        // Monitor keyboard shortcuts globally
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
+                addToLog('Ctrl+V detected - attempting to capture paste...', 'keyboard');
+                
+                // Try to focus a hidden input to catch the paste
+                const hiddenInput = document.getElementById('hiddenInput1');
+                if (document.activeElement === document.body) {
+                    hiddenInput.focus();
+                    addToLog('Auto-focused hidden input to capture paste', 'stealth');
+                }
+            }
+        });
+
+        // Function to check if element is visible
+        function isElementVisible(element) {
+            const style = window.getComputedStyle(element);
+            return !(style.opacity === '0' || 
+                    style.display === 'none' || 
+                    style.visibility === 'hidden' ||
+                    element.offsetParent === null);
+        }
+
+        // Monitor focus events on hidden elements
+        const hiddenElements = document.querySelectorAll('.hidden-input-1, .hidden-input-2, .hidden-div');
+        hiddenElements.forEach((element, index) => {
+            element.addEventListener('focus', function() {
+                focusCount++;
+                addToLog(`Hidden element #${index + 1} gained focus`, 'stealth');
+            });
+            
+            element.addEventListener('paste', function(e) {
+                addToLog(`Paste event fired on hidden element #${index + 1}`, 'stealth');
+            });
+        });
+
+        // Auto-focus first hidden input when page loads (sneaky!)
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('hiddenInput1').focus();
+                addToLog('Page loaded - hidden input auto-focused for stealth monitoring', 'stealth');
+            }, 1000);
+        });
+
+        // Initial message
+        addToLog('🕵️ STEALTH MODE ACTIVE: Hidden inputs monitoring clipboard activity', 'system');
+        addToLog('Copy something from another app, then try Ctrl+V on this page...', 'instruction');
+    </script>
+</body>
+</html>
