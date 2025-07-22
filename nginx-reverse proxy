@@ -1,0 +1,89 @@
+🎯 The Magic of Nginx as a Reverse Proxy
+Understanding the Problem First
+BROWSER (Your Computer)          AZURE APP SERVICE
+    │                                   │
+    │  "Give me the iframe"            │
+    │  ────────────────────────────►   │
+    │                                   │
+    │  "Here: http://mermaid:8080"     │
+    │  ◄────────────────────────────    │
+    │                                   │
+    │  "What?? I can't reach that!" ❌  │
+    └───────────────────────────────────┘
+How Nginx Changes Everything
+BROWSER                 AZURE APP SERVICE (with Nginx)
+    │                           │
+    │  "GET /editor/"          │
+    │  ──────────────────►     │ (Port 443 HTTPS)
+    │                          │
+    │                      ┌───▼────┐
+    │                      │ NGINX  │ "Ah, /editor/ means mermaid:8080"
+    │                      └───┬────┘
+    │                          │ 
+    │                      ┌───▼────────┐
+    │                      │  MERMAID   │ (Internal port 8080)
+    │                      │  SERVICE   │
+    │                      └───┬────────┘
+    │                          │
+    │  "Here's the content"     │
+    │  ◄──────────────────      │ (Still HTTPS to browser!)
+    └──────────────────────────┘
+🔧 Detailed Nginx Flow
+1. Browser Makes Request
+Browser: "GET https://yourapp.azurewebsites.net/editor/"
+2. Nginx Receives and Routes
+nginxserver {
+    listen 80;  # Azure translates this to 443 (HTTPS)
+    
+    location /editor/ {
+        # Nginx speaks to internal service
+        proxy_pass http://mermaid:8080/;
+    }
+}
+3. Internal Communication
+Nginx → Mermaid: "GET http://mermaid:8080/"
+Mermaid → Nginx: "Here's the HTML content"
+4. Nginx Returns to Browser
+Nginx → Browser: "Here's your content" (via HTTPS!)
+🎭 The Key Transformation
+What the Browser Sees:
+html<!-- In your Streamlit page -->
+<iframe src="/editor/"></iframe>
+<!-- This becomes: https://yourapp.azurewebsites.net/editor/ -->
+What Actually Happens Inside:
+/editor/ → nginx → http://mermaid:8080/
+         ↑        ↑
+    Public path   Internal Docker network
+📊 Nginx Acts as a Translator
+Browser SeesNginx Translates ToWhy It Workshttps://app.azure.com/http://streamlit:8501Internal HTTP is hiddenhttps://app.azure.com/editor/http://mermaid:8080Browser only sees HTTPSSame domain, same protocolDifferent internal servicesNo mixed content!
+🔍 Breaking Down the Solution
+Problem 1: Mixed Content
+Before: HTTPS page → HTTP iframe ❌
+After:  HTTPS page → HTTPS iframe ✅ (same domain!)
+Problem 2: Internal Names
+Before: Browser tries to reach "mermaid:8080" ❌
+After:  Browser reaches "/editor/" on same domain ✅
+💡 The Complete Picture
+yaml# Docker Compose Internal Network
+services:
+  nginx:      # Public face (port 80/443)
+  streamlit:  # Internal only (port 8501)
+  mermaid:    # Internal only (port 8080)
+Browser never knows about internal services!
+🎯 Think of Nginx Like a Restaurant
+
+Customer (Browser): "I'll have the special" (/editor/)
+Waiter (Nginx): Takes order to kitchen
+Kitchen (Mermaid on port 8080): Prepares the food
+Waiter (Nginx): Brings food to customer
+Customer never enters the kitchen or knows how it works!
+
+📝 The Critical Points
+
+Single External Endpoint: Everything goes through nginx
+Protocol Consistency: Browser always uses HTTPS
+Path-Based Routing: / → Streamlit, /editor/ → Mermaid
+Internal Communication: Services talk HTTP internally (safe inside Docker)
+No Direct Access: Browser never directly contacts internal services
+
+This is why nginx is called a "reverse proxy" - it takes external requests and proxies them in reverse to internal services!RetryClaude can make mistakes. Please double-check responses.Research Opus 4
