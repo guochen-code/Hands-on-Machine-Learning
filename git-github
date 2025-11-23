@@ -86,7 +86,7 @@ for file in files_sub1 & files_sub0:
 
 git push --set-upstream origin main
 
-#############################################################################################################################################################################################################
+on mac #############################################################################################################################################################################################################
 
 Git Workflow for Comparing Two Folder Versions
 Scenario
@@ -154,4 +154,12 @@ Option B: If remote updated branch exists and has different history
 # Force push to overwrite remote updated branch
 git push -u origin updated --force
 
+windows - power shell###########################################################################################################################################################################################
 
+git clone https://github.com/guochen-code/minuteBook.git minuteBook-github-final_streamlit_application
+cd minuteBook-github-final_streamlit_application
+git checkout -b azure-deployment
+robocopy ../innovation.minuteBook . /E
+git add -A
+git commit -m "Sync updated project from innovation.minuteBook"
+git push -u origin azure-deployment
