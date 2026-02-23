@@ -1,3 +1,15 @@
+harbor.ps1:
+
+```
+$venvPython = Join-Path $PSScriptRoot ".venv\Scripts\python.exe"
+$argString = ($args | ForEach-Object { "'$_'" }) -join ", "
+& $venvPython -c "from harbor.cli.main import app; import sys; sys.argv = ['harbor'] + [$argString]; app()"
+```
+
+```
+.\harbor.ps1 tasks check --model openai/gpt-5.2 tasks/crew-shoot-travel-plan
+```
+
 # Why We Need `harbor.ps1` on Windows
 
 ## The Problem
