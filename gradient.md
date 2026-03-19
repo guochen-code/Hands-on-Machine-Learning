@@ -231,7 +231,14 @@ how “important / sensitive” this region is
 
 
 # why cancel out
+
 `Δw = -(c / |grad|) × grad`
+
+
 `|a × v| = |a| × |v|`
+
+
 `|Δw| = | -(c / |grad|) × grad |`
+
+
 `|Δw| = (c / |grad|) × |grad| = c`
