@@ -47,9 +47,15 @@ And the smallest is:
 
 
 Alternatively, think in opposite direction:
-(1). We want `Δw` such that: `∇loss · Δw` is as small as possible (`∇loss · Δw = |∇loss| |Δw| cos(θ)`)
-(2). We restrict size of `Δw`: **`Δw` must have fixed norm (small step)** 
-(3). Among all vectors with fixed norm: **the dot product is minimized when `Δw` is a negative scalar multiple of `∇loss`**
+
+
+- (1). We want `Δw` such that: `∇loss · Δw` is as small as possible (`∇loss · Δw = |∇loss| |Δw| cos(θ)`)
+
+
+- (2). We restrict size of `Δw`: **`Δw` must have fixed norm (small step)** 
+
+
+- (3). Among all vectors with fixed norm: **the dot product is minimized when `Δw` is a negative scalar multiple of `∇loss`**
 
 
 **for (1)**
