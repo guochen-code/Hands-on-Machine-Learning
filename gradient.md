@@ -1,3 +1,17 @@
+# Summary
+
+Objective: minimize loss
+
+Steps:
+- The Taylor expansion tells `loss(w + Δw) ≈ loss(w) + ∇loss · Δw + higher-order terms`
+- Linear approximation: if `Δw` is small, higher-order terms shrink much faster and can be dropped
+- `loss(w + Δw) ≈ loss(w) + ∇loss · Δw`
+- `Δloss ≈ ∇loss · Δw ≈ gradient · Δw`
+- We want `Δw` such that: `∇loss · Δw` is as small as possible (`∇loss · Δw = |∇loss| |Δw| cos(θ)`)
+- The dot product is minimized when `Δw` is a negative scalar multiple of `∇loss`
+- `Δw = -η ∇loss`
+
+
 # What the gradient actually gives you
 
 The gradient tells you: **the direction of steepest increase of the loss**
