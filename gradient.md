@@ -5,37 +5,44 @@ where:
 `∇loss` → go uphill (worse)
 `-∇loss` → go downhill (better)
 
+
 # linear approximation
 `loss(w + Δw) ≈ loss(w) + ∇loss · Δw`
+
 
 It comes from the first-order Taylor expansion. For smooth functions:
 `f(x + h) = f(x) + f'(x)h + higher-order terms`
 
+
 In multiple dimensions: 
 `f(w + Δw) = f(w) + ∇f(w)·Δw + higher-order terms`
+
 
 But if `Δw` is small:
 higher-order terms shrink much faster (quadratically, cubically, etc.) So we drop them: ≈ linear approximation
 
 
+
 This comes directly from the local linear approximation:
 `loss(w + Δw) ≈ loss(w) + ∇loss · Δw`
+
 
 So the change in loss is:
 `Δloss ≈ ∇loss · Δw ≈ gradient · Δw`
 
+
 Now suppose we fix the size of Δw (we only allow small steps of equal length).
 
-Then we ask:
 
+Then we ask:
 which Δw makes this expression largest?
 
-The answer is:
 
+The answer is:
 Δw that is aligned with the gradient
 
-And the smallest is:
 
+And the smallest is:
 Δw that is opposite the gradient
 
 
@@ -44,15 +51,18 @@ Alternatively, think in opposite direction:
 (2). We restrict size of `Δw`: **`Δw` must have fixed norm (small step)** 
 (3). Among all vectors with fixed norm: **the dot product is minimized when `Δw` is a negative scalar multiple of `∇loss`**
 
+
 **for (1)**
 geometric definition of the dot product:
 dot product = product of lengths × cosine of angle
+
 
 
 **for (2)**
 **The linear approximation is only valid for small steps.** 
 So we enforce: “stay in the region where the approximation is valid”
 That is what “fixed norm” means.
+
 
 **for (3)**
 |∇loss| is fixed (we are at a point)
@@ -61,19 +71,20 @@ So the ONLY thing we can control is: cos(θ)
 cos(θ) is smallest when: θ = 180 degrees
 So: Δw points exactly opposite to gradient
 
+
 What does “opposite” mean precisely? It means:
 Δw is a negative scalar multiple of ∇loss
-So:
-Δw = -c × ∇loss
-where c > 0
-Does c have to equal 1?
-No.
+So: Δw = -c × ∇loss, where c > 0
+Does c have to equal 1? No.
 This is the key point you are asking about.
+
+
 The condition only forces:
 - same line
 - opposite orientation
 - It does NOT force: same length
 
+  
 So:
 gradient could be length 10
 Δw could be length 0.1
@@ -214,7 +225,7 @@ how “important / sensitive” this region is
 
 
 # why cancel out
-Δw = -(c / |grad|) × grad
-|a × v| = |a| × |v|
-|Δw| = | -(c / |grad|) × grad |
-|Δw| = (c / |grad|) × |grad| = c
+`Δw = -(c / |grad|) × grad`
+`|a × v| = |a| × |v|`
+`|Δw| = | -(c / |grad|) × grad |`
+`|Δw| = (c / |grad|) × |grad| = c`
