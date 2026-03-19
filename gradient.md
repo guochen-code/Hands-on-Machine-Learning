@@ -29,6 +29,7 @@ higher-order terms shrink much faster (quadratically, cubically, etc.) So we dro
 This comes directly from the local linear approximation:
 `loss(w + Δw) ≈ loss(w) + ∇loss · Δw`
 
+# Application
 
 So the change in loss is:
 `Δloss ≈ ∇loss · Δw ≈ gradient · Δw`
