@@ -1,8 +1,11 @@
 # What the gradient actually gives you
 
 The gradient tells you: **the direction of steepest increase of the loss**
+
 where:
+
 `∇loss` → go uphill (worse)
+
 `-∇loss` → go downhill (better)
 
 
