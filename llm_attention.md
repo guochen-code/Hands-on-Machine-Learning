@@ -29,6 +29,33 @@ Q @ K^T:
 → merge heads:
 (B, h, T, A) → (B, T, h·A) = (B, T, C)
 
+
+
+| Perspective          | Focus         | What it explains                                                      |
+| -------------------- | ------------- | --------------------------------------------------------------------- |
+| Variance / magnitude | Forward pass  | Without scaling, logits grow with head_size → softmax becomes peaky   |
+| Gradient stability   | Backward pass | Without scaling, softmax saturation → small gradients → slow learning |
+
+
+
+✅ So, both explanations are correct, just highlighting different aspects:
+
+- Variance perspective → “why logits explode as d grows”
+
+- Gradient perspective → “why exploding logits cause slow training”
+
+- 
+
+A scientific mindset here is:
+
+separate what the model should learn
+
+from how the computation behaves numerically
+
+remove dependencies on arbitrary parameterization
+
+preserve invariances
+
 → final linear:
 (B, T, C) @ (C, C)
 → (B, T, C)
