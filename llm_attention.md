@@ -30,6 +30,13 @@ Q @ K^T:
 (B, h, T, A) → (B, T, h·A) = (B, T, C)
 
 
+→ final linear:
+(B, T, C) @ (C, C)
+→ (B, T, C)
+
+= attention output
+
+
 
 | Perspective          | Focus         | What it explains                                                      |
 | -------------------- | ------------- | --------------------------------------------------------------------- |
@@ -54,8 +61,4 @@ A scientific mindset here is:
 
 - preserve invariances
 
-→ final linear:
-(B, T, C) @ (C, C)
-→ (B, T, C)
 
-= attention output
