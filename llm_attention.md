@@ -44,17 +44,15 @@ Q @ K^T:
 
 - Gradient perspective → “why exploding logits cause slow training”
 
-- 
+
 
 A scientific mindset here is:
 
-separate what the model should learn
+- separate what the model should learn from how the computation behaves numerically
 
-from how the computation behaves numerically
+- remove dependencies on arbitrary parameterization
 
-remove dependencies on arbitrary parameterization
-
-preserve invariances
+- preserve invariances
 
 → final linear:
 (B, T, C) @ (C, C)
