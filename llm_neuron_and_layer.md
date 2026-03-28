@@ -117,3 +117,10 @@ output:       (4,)        ← one scalar per neuron
 - Layer output shape = (nout,) — one scalar per neuron
 
 The number of neurons is purely your design choice. It controls how many different "summaries" of the input you want. The input dimension is forced by your data. Everything else is just a consequence of those two numbers.
+
+
+
+That's the complete mental model in two lines:
+
+- input features → weights per neuron (forced by data, no choice)
+- number of neurons → output size (your design choice)
