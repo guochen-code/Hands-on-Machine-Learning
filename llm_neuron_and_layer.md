@@ -94,3 +94,24 @@ output = x @ W.T + b    # W is (4,3), W.T is (3,4), x is (3,) → output is (4,)
 ## `nn.Linear(nin, nout)` in One Line
 
 It stores `nout` weight vectors of length `nin`, stacked as rows into a `(nout, nin)` matrix, then computes `x @ W.T + b` — giving you all `nout` dot products at once.
+
+
+
+
+
+
+input:        (3,)        ← 1 sample, 3 features
+                                    
+each neuron:  (3,)        ← one weight per feature, produces 1 scalar
+                                    
+weight matrix (4,3)       ← 4 neurons stacked, each row is one neuron
+                                    
+output:       (4,)        ← one scalar per neuron
+
+
+
+Neuron shape = (nin,) — forced by input, one weight per feature
+Layer weight shape = (nout, nin) — just nout neurons stacked as rows
+Layer output shape = (nout,) — one scalar per neuron
+
+The number of neurons is purely your design choice. It controls how many different "summaries" of the input you want. The input dimension is forced by your data. Everything else is just a consequence of those two numbers.
