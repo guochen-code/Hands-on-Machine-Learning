@@ -71,3 +71,47 @@ P(a | q) = (0 + 1) / (count(q?) + 27) = tiny but nonzero
 Common bigrams are barely affected — adding 1 to a count of 500 changes the probability negligibly. Unseen bigrams get a small but nonzero probability instead of zero. NLL stays finite across the entire validation set, and you can meaningfully compare models again.
 
 ---
+
+
+Good question. Let me build it from scratch.
+
+**What "too confident" means:**
+
+Without smoothing, the model says:
+```
+P(qz) = 0        ← absolutely impossible, 100% confident
+P(ma) = 0.3      ← seen many times
+```
+
+Assigning exact zero means the model is infinitely confident that `qz` can never happen. But that's not justified — just because it didn't appear in training doesn't mean it's truly impossible. The model is **overfitting to the training data** by treating "never seen" as "can never exist."
+
+---
+
+**How smoothing fixes overconfidence:**
+
+```
+P(qz) = tiny but nonzero   ← possible, just unlikely
+P(ma) = 0.3 - tiny         ← slightly less than before
+```
+
+You're essentially saying "I'm not 100% sure about anything — even unseen things have some small chance." This is more honest about the model's uncertainty.
+
+---
+
+**How this connects to neural network regularisation:**
+
+In neural networks, regularisation (L2/dropout) prevents the model from becoming too confident about its training data specifically:
+
+```
+without regularisation: model memorises training data exactly → overfits
+with regularisation:    model is forced to be slightly less certain → generalises better
+```
+
+Smoothing does the same thing for count-based models:
+
+```
+without smoothing: model memorises "unseen = impossible" → breaks on new data
+with smoothing:    model hedges slightly → handles new data gracefully
+```
+
+Both are trading a tiny bit of accuracy on known cases to gain robustness on unknown cases. That's the conceptual connection — they're both solutions to overconfidence, just in different model types.
