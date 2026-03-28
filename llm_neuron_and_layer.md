@@ -98,6 +98,8 @@ It stores `nout` weight vectors of length `nin`, stacked as rows into a `(nout, 
 
 
 
+---
+---
 
 
 input:        (3,)        ← 1 sample, 3 features
