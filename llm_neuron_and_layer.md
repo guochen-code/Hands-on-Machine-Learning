@@ -22,6 +22,15 @@ A layer is a collection of neurons that all receive the **same input vector** an
 - They are grouped together only because they operate on the same input
 - `nout` neurons → `nout` independent dot products → `nout` scalar outputs
 
+**Two numbers fully determine a layer:**
+
+| Number | Determined by | Controls |
+|---|---|---|
+| `nin` | Your data | How many weights each neuron has |
+| `nout` | Your design choice | How many outputs the layer produces |
+
+Everything else — matrix shapes, transposes, storage layout — is just a consequence of these two numbers.
+
 ---
 
 ## The Core Insight: Everything is Dot Products
@@ -37,7 +46,7 @@ Matrix multiply is just "run all dot products simultaneously" — pure computati
 
 ## From Dot Products to Matrix Multiply
 
-For matrix multiply to equal running all dot products at once, **each neuron's weights must occupy one column** in the matrix at multiply time:
+For matrix multiply to equal running all dot products at once, **each neuron's weights must occupy one column** in the matrix at multiply time. This is the only constraint — everything else follows from it.
 
 ```
 x (3,) @ W (3,4):
@@ -50,27 +59,51 @@ column 3: [w30,w31,w32]  ← neuron 3's weights → dot(x, col3) = scalar3
 result: (4,)  ← one scalar per neuron ✓
 ```
 
-This is the only constraint. Everything else follows from it.
+---
+
+## Two Ways to Store the Weight Matrix
+
+You have 4 neurons each with 3 weights. There are two natural ways to arrange them:
+
+**Option A — neurons as columns `(nin, nout)` = `(3,4)`:**
+```
+W (3,4):
+col 0: [w00,w10,w20,w30]  ← all weights for neuron 0 spread down a column
+col 1: [w01,w11,w21,w31]  ← all weights for neuron 1
+col 2: [w02,w12,w22,w32]  ← all weights for neuron 2
+col 3: [w03,w13,w23,w33]  ← all weights for neuron 3
+```
+
+Math works directly — neurons are already columns:
+```
+x @ W  →  (3,) @ (3,4)  →  (4,)  ✓  no transpose needed
+```
+
+But indexing is awkward: `W[:, 2]` to get neuron 2's weights (a column slice).
 
 ---
 
-## PyTorch's Storage Convention
-
-PyTorch stores the weight matrix as `(nout, nin)` — neurons as **rows**, not columns:
-
+**Option B — neurons as rows `(nout, nin)` = `(4,3)`:**
 ```
 W (4,3):
-W[0] = [w00, w01, w02]  ← neuron 0
-W[1] = [w10, w11, w12]  ← neuron 1
-W[2] = [w20, w21, w22]  ← neuron 2
-W[3] = [w30, w31, w32]  ← neuron 3
+W[0] = [w00, w01, w02]  ← neuron 0's weights, all in one row
+W[1] = [w10, w11, w12]  ← neuron 1's weights
+W[2] = [w20, w21, w22]  ← neuron 2's weights
+W[3] = [w30, w31, w32]  ← neuron 3's weights
 ```
 
-**Why rows?** Readability and indexing convenience. `W[i]` gives you neuron i's weights in one clean index. Rows are also contiguous in memory, so it's a fast read.
+Indexing is clean: `W[2]` gives you neuron 2's weights directly. Rows are also contiguous in memory — one fast read.
 
-**The tradeoff:** neurons-as-rows requires a transpose before multiplying. PyTorch handles this transparently inside `nn.Linear`:
-
+But neurons are now rows, not columns, so a transpose is needed before multiplying:
 ```
+x @ W.T  →  (3,) @ (3,4)  →  (4,)  ✓  transpose required
+```
+
+---
+
+**PyTorch chose Option B** — neurons as rows `(nout, nin)` — for readability and indexing convenience, and handles the transpose transparently inside `nn.Linear`:
+
+```python
 # What you write:
 nn.Linear(3, 4)
 
@@ -82,45 +115,25 @@ output = x @ W.T + b    # W is (4,3), W.T is (3,4), x is (3,) → output is (4,)
 
 ## Shape Summary
 
+```
+input:         (3,)     ← 1 sample, 3 features
+each neuron:   (3,)     ← one weight per feature, produces 1 scalar
+weight matrix: (4,3)    ← 4 neurons stacked as rows  (PyTorch storage)
+output:        (4,)     ← one scalar per neuron
+```
+
 | Thing | Shape | Why |
 |---|---|---|
-| Input vector | `(nin,)` | flat, no row/column concept |
+| Input vector | `(nin,)` | flat, one value per feature |
 | Weight matrix stored | `(nout, nin)` | neurons as rows, for readability |
 | Weight matrix at multiply time | `(nin, nout)` | neurons as columns, for dot products |
 | Output vector | `(nout,)` | one scalar per neuron |
 
 ---
 
-## `nn.Linear(nin, nout)` in One Line
+## Mental Model in Two Lines
 
-It stores `nout` weight vectors of length `nin`, stacked as rows into a `(nout, nin)` matrix, then computes `x @ W.T + b` — giving you all `nout` dot products at once.
+- **input features → weights per neuron** (forced by data, no choice)
+- **number of neurons → output size** (your design choice)
 
-
-
-
----
----
-
-
-input:        (3,)        ← 1 sample, 3 features
-                                    
-each neuron:  (3,)        ← one weight per feature, produces 1 scalar
-                                    
-weight matrix (4,3)       ← 4 neurons stacked, each row is one neuron
-                                    
-output:       (4,)        ← one scalar per neuron
-
-
-
-- Neuron shape = (nin,) — forced by input, one weight per feature
-- Layer weight shape = (nout, nin) — just nout neurons stacked as rows
-- Layer output shape = (nout,) — one scalar per neuron
-
-The number of neurons is purely your design choice. It controls how many different "summaries" of the input you want. The input dimension is forced by your data. Everything else is just a consequence of those two numbers.
-
-
-
-That's the complete mental model in two lines:
-
-- input features → weights per neuron (forced by data, no choice)
-- number of neurons → output size (your design choice)
+`nn.Linear(nin, nout)` stores `nout` weight vectors of length `nin`, stacked as rows into a `(nout, nin)` matrix, then computes `x @ W.T + b` — giving you all `nout` dot products at once.
