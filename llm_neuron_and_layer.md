@@ -112,8 +112,8 @@ output:       (4,)        ← one scalar per neuron
 
 
 
-Neuron shape = (nin,) — forced by input, one weight per feature
-Layer weight shape = (nout, nin) — just nout neurons stacked as rows
-Layer output shape = (nout,) — one scalar per neuron
+- Neuron shape = (nin,) — forced by input, one weight per feature
+- Layer weight shape = (nout, nin) — just nout neurons stacked as rows
+- Layer output shape = (nout,) — one scalar per neuron
 
 The number of neurons is purely your design choice. It controls how many different "summaries" of the input you want. The input dimension is forced by your data. Everything else is just a consequence of those two numbers.
